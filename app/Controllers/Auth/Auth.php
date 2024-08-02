@@ -13,10 +13,13 @@ class Auth extends BaseController
     protected $AuthModel;
     public function __construct() {
         $this->AuthModel = new AuthModel();
+      
     }
 
     public function index()
     {
+        
+
         $data = [
             'title' => 'LOCAL ORDER - LOGIN'
       ];

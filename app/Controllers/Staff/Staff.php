@@ -183,8 +183,7 @@ class Staff extends BaseController
             } else {
                 return redirect()->to(site_url('Parts-Division'))->with('error', 'Data gagal Diupdate');
             }
-        }
-            
+        }      
          }
 
         public function delete_Part_div($id)  {
@@ -199,8 +198,6 @@ class Staff extends BaseController
            
          }
 
-
-
         public function Form_Lo()  {
             $data = [
                 'title' => 'Form Local Order'
@@ -208,6 +205,7 @@ class Staff extends BaseController
                 return view('Staff/Form-Local-Order/Form',$data);
          }
 
+         
         public function Get_Part_Divisi()  {
             //get Group
             $groupBranch =  session()->get('groupBranch');

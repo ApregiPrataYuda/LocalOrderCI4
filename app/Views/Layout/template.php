@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $title?></title>
-
    <!-- Google Font: Source Sans Pro -->
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -96,11 +95,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
                <?= $this->include('layout/navbar')?>
-              
             </ul>
           </li>
         </ul>
@@ -124,7 +119,6 @@
       </div>
       <strong>Copyright &copy; 2024 <a class="text-info" href="">CI 4</a>.</strong> All rights reserved.
     </footer>
-
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
@@ -139,40 +133,18 @@
   <script src="<?= base_url() ?>assets/backend/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="<?= base_url() ?>assets/backend/dist/js/demo.js"></script>
-
   <script src="<?= base_url() ?>assets/backend/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-  <!-- <script src="<?= base_url() ?>assets/backend/plugins/jszip/jszip.min.js"></script>
-  <script src="<?= base_url() ?>assets/backend/plugins/pdfmake/pdfmake.min.js"></script>
-  <script src="<?= base_url() ?>assets/backend/plugins/pdfmake/vfs_fonts.js"></script> -->
-  <script src="<?= base_url() ?>assets/backend/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-  <script src="<?= base_url() ?>assets/backend/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-  <script src="<?= base_url() ?>assets/backend/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
   <script src="<?= base_url() ?>assets/backend/vendors/sweetalert2/sweetalert2.min.js"></script>
-  <script src="<?= base_url() ?>assets/backend/plugins/summernote/summernote-bs4.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/toastr/toastr.min.js"></script>
-  <script>
-      $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-</script>
-
-<script>
-      $(document).ready( function () {
-    $('#myTables').DataTable();
-} );
-</script>
-
   <!-- Page specific script -->
-  
+
   <script>
-    //code obfuscator 
     function _0x4dea(_0x57e5ac,_0x12548f){var _0x6cb2ec=_0x6cb2();
     return _0x4dea=function(_0x4dea21,_0x46fc46){_0x4dea21=_0x4dea21-0xf8;
     var _0x45b490=_0x6cb2ec[_0x4dea21];return _0x45b490;},_0x4dea(_0x57e5ac,_0x12548f);}
@@ -184,100 +156,34 @@
     if(_0x216213===_0x3afcf0)break;else _0x1176de['push'](_0x1176de['shift']());}
     catch(_0x91520b){_0x1176de['push'](_0x1176de['shift']());}}}(_0x6cb2,0xd373a));
     var flash=$(_0x9ac837(0xfa))[_0x9ac837(0xff)](_0x9ac837(0x103));flash&&Swal[_0x9ac837(0xfd)]({'icon':_0x9ac837(0x102),'title':_0x9ac837(0x102),'text':flash});
-    
-    //code asli
-    // var flash = $('#flash').data('flash');
-    // if (flash) {
-    //   Swal.fire({
-    //     icon: 'success',
-    //     title: 'success',
-    //     text: flash
-    //   })
-    // }
  </script>
-
  <script>
-   //code obfuscator 
    var _0x444dfe=_0x55c7;function _0x55c7(_0x140575,_0x3b4116){var _0x1d03d1=_0x1d03();return _0x55c7=function(_0x55c7e5,_0x411261){_0x55c7e5=_0x55c7e5-0xd2;var _0x222ad8=_0x1d03d1[_0x55c7e5];return _0x222ad8;},_0x55c7(_0x140575,_0x3b4116);}(function(_0x471389,_0x1d9d02){var _0x19ad76=_0x55c7,_0x56ca94=_0x471389();while(!![]){try{var _0x192a70=-parseInt(_0x19ad76(0xd2))/0x1+-parseInt(_0x19ad76(0xd5))/0x2*(parseInt(_0x19ad76(0xd7))/0x3)+-parseInt(_0x19ad76(0xe0))/0x4*(parseInt(_0x19ad76(0xd4))/0x5)+-parseInt(_0x19ad76(0xdf))/0x6*(-parseInt(_0x19ad76(0xd6))/0x7)+parseInt(_0x19ad76(0xdb))/0x8*(-parseInt(_0x19ad76(0xd8))/0x9)+parseInt(_0x19ad76(0xdc))/0xa+-parseInt(_0x19ad76(0xdd))/0xb*(-parseInt(_0x19ad76(0xe1))/0xc);if(_0x192a70===_0x1d9d02)break;else _0x56ca94['push'](_0x56ca94['shift']());}catch(_0x3efd91){_0x56ca94['push'](_0x56ca94['shift']());}}}(_0x1d03,0xc26a5));var flasher=$('#flasher')[_0x444dfe(0xda)](_0x444dfe(0xd9));function _0x1d03(){var _0x4f9a02=['error','6Phcrah','71848vQPtQh','4836BdRvNC','1437893IpLtcp','fire','440UWgREI','1840450LKntDb','6499486iLGPBH','3QfosvC','741411NeqZxj','flasher','data','32rIljtt','10717050xCKtpU','83644uQLDbR'];_0x1d03=function(){return _0x4f9a02;};return _0x1d03();}flasher&&Swal[_0x444dfe(0xd3)]({'icon':_0x444dfe(0xde),'title':_0x444dfe(0xde),'text':flash});
-   //code asli 
-  // var flasher = $('#flasher').data('flasher');
-  //   if (flasher) {
-  //     Swal.fire({
-  //       icon: 'error',
-  //       title: 'error',
-  //       text: flash
-  //     })
-  //   }
  </script>
-
  <script>
-   //code obfuscator 
   var _0x34d160=_0x4c0f;(function(_0x2b81c6,_0x15f200){var _0x5ba91a=_0x4c0f,_0x2e817d=_0x2b81c6();while(!![]){try{var _0x29e17b=-parseInt(_0x5ba91a(0x191))/0x1+parseInt(_0x5ba91a(0x187))/0x2+-parseInt(_0x5ba91a(0x18d))/0x3+parseInt(_0x5ba91a(0x193))/0x4*(parseInt(_0x5ba91a(0x184))/0x5)+-parseInt(_0x5ba91a(0x181))/0x6*(parseInt(_0x5ba91a(0x183))/0x7)+-parseInt(_0x5ba91a(0x17e))/0x8*(-parseInt(_0x5ba91a(0x18e))/0x9)+-parseInt(_0x5ba91a(0x18a))/0xa*(-parseInt(_0x5ba91a(0x182))/0xb);if(_0x29e17b===_0x15f200)break;else _0x2e817d['push'](_0x2e817d['shift']());}catch(_0x4357e3){_0x2e817d['push'](_0x2e817d['shift']());}}}(_0x84cc,0x734e4),$(document)['on'](_0x34d160(0x188),_0x34d160(0x18b),function(_0x3cf93a){var _0x6bf211=_0x34d160;_0x3cf93a[_0x6bf211(0x17c)]();var _0x57ffb2=$(this)[_0x6bf211(0x190)](_0x6bf211(0x18f));Swal[_0x6bf211(0x192)]({'title':_0x6bf211(0x18c),'text':_0x6bf211(0x186),'icon':'info','showCancelButton':!![],'confirmButtonColor':_0x6bf211(0x180),'cancelButtonColor':_0x6bf211(0x17b),'confirmButtonText':_0x6bf211(0x185)})[_0x6bf211(0x17d)](_0x41b7ef=>{var _0x4b3641=_0x6bf211;_0x41b7ef[_0x4b3641(0x189)]&&(window[_0x4b3641(0x17f)]=_0x57ffb2);});}));function _0x4c0f(_0x417c0c,_0x2ac620){var _0x84ccf5=_0x84cc();return _0x4c0f=function(_0x4c0f5b,_0x20d93e){_0x4c0f5b=_0x4c0f5b-0x17b;var _0x3df323=_0x84ccf5[_0x4c0f5b];return _0x3df323;},_0x4c0f(_0x417c0c,_0x2ac620);}function _0x84cc(){var _0x4fc391=['252762tgxsTZ','99gzBvrs','56FAyLTk','2228605xLQMFI','Ya,\x20Hapus!','Data\x20Akan\x20Dihapus!','1638978HdPFyw','click','isConfirmed','648770bxParF','#btn-hapus','Apakah\x20Anda\x20yakin?','2209455sIYkcF','27UppoSb','href','attr','903562tiANSY','fire','4vTqpaq','#d33','preventDefault','then','1600672Szxlyf','location','#3085d6'];_0x84cc=function(){return _0x4fc391;};return _0x84cc();}
-    //code asli 
-  // $(document).on('click', '#btn-hapus', function(e) {
-  //     e.preventDefault();
-  //     // link for href
-  //     var link = $(this).attr('href');
-  //     Swal.fire({
-  //       title: 'Apakah Anda yakin?',
-  //       text: "Data Akan Dihapus!",
-  //       icon: 'info',
-  //       showCancelButton: true,
-  //       confirmButtonColor: '#3085d6',
-  //       cancelButtonColor: '#d33',
-  //       confirmButtonText: 'Ya, Hapus!',
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         window.location = link;
-  //       }
-  //     })
-  //   })
  </script>
-
-  <script>
-       //code obfuscator 
+<script>
 function _0x7b77(){var _0x1bad66=['Ya,\x20Logout!','Akan\x20Logout!','91vVEDoC','click','info','316716zVVlsi','3294156DaRkPA','then','isConfirmed','preventDefault','92981qmglJZ','attr','882930VysPxm','58468osJDfu','#3085d6','60rUPBxD','6nsTxsK','761849qQtXLw','#btn-keluar','55cIEEym','223164qXLiGp','#d33','Apakah\x20Anda\x20yakin?','href','64AcFIOR'];_0x7b77=function(){return _0x1bad66;};return _0x7b77();}function _0x19ec(_0x3d405e,_0x2de86f){var _0x7b774b=_0x7b77();return _0x19ec=function(_0x19ec9e,_0x1520f1){_0x19ec9e=_0x19ec9e-0x93;var _0x4b6c5f=_0x7b774b[_0x19ec9e];return _0x4b6c5f;},_0x19ec(_0x3d405e,_0x2de86f);}var _0x8b93f2=_0x19ec;(function(_0x3d4be7,_0x38439c){var _0x6707e=_0x19ec,_0x3953df=_0x3d4be7();while(!![]){try{var _0x366897=-parseInt(_0x6707e(0x9e))/0x1*(parseInt(_0x6707e(0xa4))/0x2)+parseInt(_0x6707e(0xa0))/0x3+-parseInt(_0x6707e(0xa1))/0x4*(-parseInt(_0x6707e(0xa7))/0x5)+parseInt(_0x6707e(0x99))/0x6*(-parseInt(_0x6707e(0x96))/0x7)+-parseInt(_0x6707e(0x93))/0x8*(-parseInt(_0x6707e(0xa8))/0x9)+-parseInt(_0x6707e(0xa3))/0xa*(-parseInt(_0x6707e(0xa5))/0xb)+parseInt(_0x6707e(0x9a))/0xc;if(_0x366897===_0x38439c)break;else _0x3953df['push'](_0x3953df['shift']());}catch(_0x4fec08){_0x3953df['push'](_0x3953df['shift']());}}}(_0x7b77,0x5c603),$(document)['on'](_0x8b93f2(0x97),_0x8b93f2(0xa6),function(_0x5e02f4){var _0x75c471=_0x8b93f2;_0x5e02f4[_0x75c471(0x9d)]();var _0x6d760c=$(this)[_0x75c471(0x9f)](_0x75c471(0xab));Swal['fire']({'title':_0x75c471(0xaa),'text':_0x75c471(0x95),'icon':_0x75c471(0x98),'showCancelButton':!![],'confirmButtonColor':_0x75c471(0xa2),'cancelButtonColor':_0x75c471(0xa9),'confirmButtonText':_0x75c471(0x94)})[_0x75c471(0x9b)](_0xee457b=>{var _0x4e9b23=_0x75c471;_0xee457b[_0x4e9b23(0x9c)]&&(window['location']=_0x6d760c);});}));
-
-//code asli 
-    // $(document).on('click', '#btn-keluar', function(e) {
-    //   e.preventDefault();
-    //   // link for href
-    //   var link = $(this).attr('href');
-    //   Swal.fire({
-    //     title: 'Apakah Anda yakin?',
-    //     text: "Akan Logout!",
-    //     icon: 'info',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Ya, Logout!',
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       window.location = link;
-    //     }
-    //   })
-    // })
-
-  </script>
-
-
-  
-
-  <script>
+</script>
+<script>
     /** add active class and stay opened when selected */
     var url = window.location;
-
     // for sidebar menu entirely but not cover treeview
     $('ul.nav-sidebar a').filter(function() {
       return this.href == url;
     }).addClass('active');
-
     // for treeview
     $('ul.nav-treeview a').filter(function() {
       return this.href == url;
     }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
-  </script>
 
+    document.addEventListener('keydown', function(e) {
+    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73) || (e.ctrlKey && e.shiftKey && e.keyCode === 74)) {
+        e.preventDefault();
+    }
+});
+  </script>
 </body>
 
 </html>
