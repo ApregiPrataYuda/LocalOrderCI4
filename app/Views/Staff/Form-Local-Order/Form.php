@@ -66,8 +66,9 @@ input:valid, textarea:valid {
 
 
 
+<form onsubmit="return false" id="form_lo">   
 <!--start view for user -->
-  <section class="content">
+  <section class="content col-md-12">
         <!-- Default box -->
         <div class="card">
           <div class="card-header">
@@ -84,7 +85,6 @@ input:valid, textarea:valid {
             </div>
           </div>
           <div class="card-body">
-          <form method="post" action="<?php echo base_url('') ?>">
             <!-- start code header -->
           <div class="col-md-6 mt-2">
 				<table>
@@ -144,13 +144,13 @@ input:valid, textarea:valid {
           <div class="card-body">
 
            <!-- start code Button -->
-            <a id="getPartsDivisi" class="btn btn-outline-info btn-sm clicks"><i class="fa fa-plus"></i> Add Parts </a>
-			<a href="<?= base_url('Form-Local-Order')?>"  class="btn btn-outline-warning btn-sm clicks2"><i class="fa fa-undo"></i> Reset</a>
+            <a id="getPartsDivisi" class="btn btn-outline-info btn-sm clicks" style="display:none;"><i class="fa fa-plus"></i> Add Parts </a>
+			<a href="<?= base_url('Form-Local-Order')?>" id="reset"  class="btn btn-outline-warning btn-sm clicks2" style="display:none;"><i class="fa fa-undo"></i> Reset</a>
 			<!-- <button type="button" class="btn btn-outline-info btn-sm submits" data-toggle="modal" data-target="#modalSave">
 			 <i class="fa fa-save"></i> Next
             </button> -->
-            <button type="button" id="saveButton" class="btn btn-sm btn-outline-primary"><i class="fa fa-paper-plane"></i> Save</button>
-            <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="checkData"><i class="fa fa-trash"></i> Remove Item</button>
+            <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="checkData" style="display:none;"><i class="fa fa-trash"></i> Remove Item</button>
+            <button type="button" id="saveButton" class="btn btn-sm btn-outline-primary" style="display:none;"><i class="fa fa-paper-plane"></i> Save</button>
           
             <!-- end code Button -->
            <hr>
@@ -250,34 +250,7 @@ input:valid, textarea:valid {
 </div>
 
 
-<!-- modal save -->
- <!-- Modal -->
-<div class="modal fade" id="modalSave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-    
 
-	  <div class="alert alert-danger" role="alert">
-        Pastikan semua data sudah anda cek dengan benar?
-      </div>
-
-
-      </div>
-      <div class="modal-footer">
-		<button type="button" class="btn btn-outline-success btn-sm" id="buttonSubmit"  onclick="submitData()"><i class="fa fa-paper-plane"></i> Save</button>
-		<!-- <button type="button" class="btn btn-outline-success btn-sm" id="buttonSubmit"><i class="fa fa-paper-plane"></i> Save</button> -->
-      </div>
-    </div>
-  </div>
-</div>
-</form>
           <!-- /.card-body -->
           <!-- /.card-footer-->
         <!-- /.card -->
@@ -590,15 +563,44 @@ $(document).ready(function() {
             var planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
             $(this).find('.planMonth2').val(planMonth2Value);
 
-            // Calculate orderMonth2
-            var hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
-            var order = Math.abs(isNaN(hasilOrder) ? 0 : hasilOrder);
-            var mod = order % standartPack;
-            var mod2 = standartPack - mod;
-            var mod3 = order + mod2;
-            var mod4 = Math.abs(mod3);
-            var finalOrder = (mod4 < minimumOrder) ? minimumOrder : mod4;
-            $(this).find('.orderMonth2').val(finalOrder);
+            // Calculate orderMonth2 old version
+            // var hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+            // var order = Math.abs(isNaN(hasilOrder) ? 0 : hasilOrder);
+            // var mod = order % standartPack;
+            // var mod2 = standartPack - mod;
+            // var mod3 = order + mod2;
+            // var mod4 = Math.abs(mod3);
+            // var finalOrder = (mod4 < minimumOrder) ? minimumOrder : mod4;
+            // $(this).find('.orderMonth2').val(finalOrder);
+
+            // Calculate orderMonth2 new version
+            // Menghitung hasil order
+                let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+                let order = hasilOrder;
+                let mod = 0;
+                let mod2 = 0;
+                let mod3 = 0;
+                // Menggunakan logika kondisional untuk menghitung nilai orderMonth2
+                if (standartPack > 1) {
+                    mod = order % standartPack;
+                    mod2 = standartPack - mod;
+                    mod3 = order + mod2;
+                } else {
+                    mod3 = order;
+                }
+                let mod4 = Math.abs(mod3);
+                // Mengatur nilai orderMonth2 berdasarkan minimumOrder dan kondisi lainnya
+                if (mod4 < minimumOrder) {
+                    $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
+                } else {
+                    if (mod3 < 0) {
+                        $(this).find('.orderMonth2').val(mod4);
+                    } else {
+                        let defaultOrders = 0;
+                        $(this).find('.orderMonth2').val(defaultOrders);
+                    }
+                }
+
         });
     }
     // Update calculations when input fields change
@@ -712,14 +714,56 @@ $('#saveButton').click(function() {
         // If there are missing fields, update isValid and errorMessage
         if (missingFields.length > 0) {
             isValid = false;
-            errorMessage = 'Kolom ' + missingFields.join(', ') + ' Belum Di isi ';
+            errorMessage = 'Column(Kolom) ' + missingFields.join(', ') + ' Not filled yet(Belum Di isi) ';
             return false; // Exit the loop
         }
     });
 
     if (isValid) {
-        console.log('success');
         // Proceed with form submission or other actions
+        //start proses aksi kirim data
+            $.ajax({
+                    url: '<?= base_url('send-data-request-order') ?>',
+                    method: 'POST',
+                    data: $('#form_lo').serialize(),
+                    beforeSend: function() {
+                        $('#saveButton').prop('disabled', true).text('Sedang proses...');
+                    },
+                    success: function(response) {
+                if (response.trim() === 'oke') {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Failed to save data!",
+                    }).then(function() {
+                        $('#saveButton').prop('disabled', false).text('Data Save Failed');
+                        window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "Success save data!",
+                    }).then(function() {
+                        $('#saveButton').prop('disabled', false).text('Success Save Data');
+                        // window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                    });
+                }
+            },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Failed to communicate with server.",
+            }).then(function() {
+                $('#buttonSubmit').prop('disabled', false).text('OKE');
+                $('#modalSave').modal('hide');
+            });
+        }
+    });
+//endproses kirim data
+
     } else {
         Swal.fire({
             icon: "error",
@@ -729,8 +773,6 @@ $('#saveButton').click(function() {
     }
 });
 </script>
-
-
 
 <!-- // code for supports  -->
 <script>
@@ -750,6 +792,23 @@ $('#saveButton').click(function() {
                     $('.checkeds').prop('checked', false);
                 }
                 });
+
+                $("#getPartsDivisi").click(function () {
+                $("#saveButton").show(1000)
+                })
+
+                $("#divisis").change(function () {
+                    $("#getPartsDivisi").show(1000)
+                    })
+
+                $("#divisis").change(function () {
+                    $(".removeButton").show(1000)
+                    })
+
+                $("#divisis").change(function () {
+                    $("#reset").show(1000)
+                    })    
+                    
             });
             //code remove checkbox
             $('#checkData').click(function() {

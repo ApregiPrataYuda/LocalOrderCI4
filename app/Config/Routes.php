@@ -29,3 +29,4 @@ $routes->get('/delete-part-divisi/(:any)', 'Staff\Staff::delete_Part_div/$1');
 // $routes->get('/Staff', 'Staff\Staff::Home');
 $routes->get('/Form-Local-Order', 'Staff\Staff::Form_Lo');
 $routes->get('/Data-Part-Divisi', 'Staff\Staff::Get_Part_Divisi');
+$routes->post('send-data-request-order', 'Staff\Staff::Accept_data_local_order');

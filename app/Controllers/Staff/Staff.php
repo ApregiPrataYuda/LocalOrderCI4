@@ -7,16 +7,26 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\PartDivisiModel;
 use App\Models\UnitModel;
 use App\Models\PartsModel;
+use App\Models\HeaderLoModel;
+use App\Models\DetailLoModel;
+use App\Models\DetailLoModelLog;
 class Staff extends BaseController
 {
 
     protected $PartDivisiModel;
     protected $UnitModel;
     protected $PartsModel;
+    protected $HeaderLoModel;
+    protected $DetailLoModel;
+    protected $DetailLoModelLog;
+
     public function __construct() {
         $this->PartDivisiModel = new PartDivisiModel();
         $this->UnitModel = new UnitModel();
         $this->PartsModel = new PartsModel();
+        $this->HeaderLoModel = new HeaderLoModel();
+        $this->DetailLoModel = new DetailLoModel();
+        $this->DetailLoModelLog = new DetailLoModelLog();
     }
 
     public function Home()
@@ -227,23 +237,45 @@ class Staff extends BaseController
             $yearz = $previousMonth->format('Y');  // Tahun dalam format empat digit
             // Gabungkan tahun dan bulan untuk mendapatkan format YYYYMM
             $monthoneminusfromnow = $yearz . $monthf;
-            //query sql
-            $sql = "
-            SELECT c.partID, c.PartName, a.standart_Pack, a.minimum_Order, c.OtherID, ISNULL(sum(b.qty),0) AS endstock, a.safety_Stock, c.Konversi,
-                isnull((SELECT sum(x.QtyPO) FROM trans_BPBDT$monthAndYearnow x left join ms_part_divisi y on x.partid = y.partid and y.partID = c.PartID
-                inner join ms_warehousestock z on z.DivisionID = y.divisiID ),0) AS InActual,
-                isnull((SELECT sum(orderMonth2) as orderMonth2 FROM trans_local_orderDT x 
-                inner join ms_part_divisi y on x.idPartDivisi = y.partid and x.idPartDivisi = c.partID and x.idPartDivisi = a.partID where month2 = '$monthoneminusfromnow'),0) - 
-                isnull((SELECT sum(x.QtyPO) as InActual FROM trans_BPBDT$monthAndYearnow x left join ms_part_divisi y on x.partid = y.partid and y.partID = c.PartID
-                inner join ms_warehousestock z on z.DivisionID = y.divisiID ),0)
-                AS HPO
-                FROM ms_part_divisi a
-                LEFT JOIN buku_Stock$monthoneminusfromnow b ON b.partID = a.PartID
-                INNER JOIN ms_part c ON c.PartID = a.partID
-                INNER JOIN Ms_WarehouseStock d ON a.divisiID = d.DivisionID 
-                WHERE a.divisiID = '$divisions' AND d.groupcode = '$groupBranch' AND a.Is_Active = 1 AND d.groupcode = '$groupBranch'
-                GROUP BY a.partID, c.PartName, a.standart_Pack, c.OtherID, a.safety_Stock, c.PartID, a.id, a.minimum_Order, c.Konversi
-                ORDER BY a.id DESC";
+            //query sql local development
+            // $sql = "
+            // SELECT c.partID, c.PartName, a.standart_Pack, a.minimum_Order, c.OtherID, ISNULL(sum(b.qty),0) AS endstock, a.safety_Stock, c.Konversi,
+            //     isnull((SELECT sum(x.QtyPO) FROM trans_BPBDT$monthAndYearnow x left join ms_part_divisi y on x.partid = y.partid and y.partID = c.PartID
+            //     inner join ms_warehousestock z on z.DivisionID = y.divisiID ),0) AS InActual,
+            //     isnull((SELECT sum(orderMonth2) as orderMonth2 FROM trans_local_orderDT x 
+            //     inner join ms_part_divisi y on x.idPartDivisi = y.partid and x.idPartDivisi = c.partID and x.idPartDivisi = a.partID where month2 = '$monthoneminusfromnow'),0) - 
+            //     isnull((SELECT sum(x.QtyPO) as InActual FROM trans_BPBDT$monthAndYearnow x left join ms_part_divisi y on x.partid = y.partid and y.partID = c.PartID
+            //     inner join ms_warehousestock z on z.DivisionID = y.divisiID ),0)
+            //     AS HPO
+            //     FROM ms_part_divisi a
+            //     LEFT JOIN buku_Stock$monthoneminusfromnow b ON b.partID = a.PartID
+            //     INNER JOIN ms_part c ON c.PartID = a.partID
+            //     INNER JOIN Ms_WarehouseStock d ON a.divisiID = d.DivisionID 
+            //     WHERE a.divisiID = '$divisions' AND d.groupcode = '$groupBranch' AND a.Is_Active = 1 AND d.groupcode = '$groupBranch'
+            //     GROUP BY a.partID, c.PartName, a.standart_Pack, c.OtherID, a.safety_Stock, c.PartID, a.id, a.minimum_Order, c.Konversi
+            //     ORDER BY a.id DESC";
+
+            //sql production server
+             $sql = "
+            SELECT c.partID, c.PartName, a.standart_Pack, c.OtherID, a.UnitID_Stock, c.UnitID_PO, a.minimum_Order, c.Konversi,
+			ISNULL((Select sum(x.qty) from buku_stock$monthoneminusfromnow x inner join Ms_WarehouseStock z on x.locationid=z.locationid 
+			inner join ms_part_divisi y on x.partid=y.partid and y.divisiID = z.DivisionID 
+			where x.partid=a.partID and z.groupcode = '$groupBranch' and z.DivisionID='$divisions'),0) AS endstock, 
+			a.safety_Stock,
+			isnull((SELECT sum(x.QtyStock) FROM trans_BPBDT$monthAndYearnow x inner join Trans_BPBHD$monthAndYearnow v on v.NoBukti = x.NoBukti left join ms_part_divisi y on x.partid = y.partid 
+			inner join ms_warehousestock z on z.DivisionID = y.divisiID and z.LocationID = v.LocationID where y.partID = a.PartID and z.groupcode = '$groupBranch' and z.DivisionID='$divisions'),0) AS InActual,
+			isnull((SELECT sum(orderMonth2) as orderMonth2 FROM trans_local_orderDT x 
+			inner join ms_part_divisi y on x.idPartDivisi = y.partid and x.idPartDivisi = a.partID
+			where month2 = '$monthoneminusfromnow' and y.divisiID='$divisions'),0) - 
+			isnull((SELECT sum(x.QtyStock) FROM trans_BPBDT$monthAndYearnow x inner join Trans_BPBHD$monthAndYearnow v on v.NoBukti = x.NoBukti left join ms_part_divisi y on x.partid = y.partid 
+			inner join ms_warehousestock z on z.DivisionID = y.divisiID and z.LocationID = v.LocationID where y.partID = a.PartID and z.groupcode = '$groupBranch' and z.DivisionID='$divisions'),0)
+			AS HPO
+			FROM ms_part_divisi a
+			INNER JOIN ms_part c ON c.PartID = a.partID
+			WHERE a.divisiID = '$divisions' AND a.Is_Active = 1  
+			GROUP BY a.partID, c.PartName, a.standart_Pack, c.OtherID, a.UnitID_Stock, c.UnitID_PO, a.safety_Stock, c.PartID, a.id, a.minimum_Order, c.Konversi
+			ORDER BY c.PartName ASC";
+
             // Execute the query
             $query = $this->PartDivisiModel->query($sql);
             // Fetch the results
@@ -251,4 +283,108 @@ class Staff extends BaseController
             // Encode the result in JSON format
             echo json_encode($response);
          }
+
+
+         public function Accept_data_local_order()  {
+             
+            //START CODE FOR CREATE NO LO
+            $month = date("m");
+            $year = date('Y');
+            $divisi = $this->request->getVar('divisis');
+            $monthAndYear = $this->request->getVar('monthandyear');
+            $groupBranch = session()->get('groupBranch');
+            $userId = session()->get('UserID');
+            // Query SQL
+            $sql = "SELECT RIGHT(localOrderNo, 5) AS localOrderNo
+                    FROM trans_local_orderHD
+                    WHERE divisiId = ?
+                    AND periode = ?
+                    ORDER BY localOrderNo DESC
+                    ";
+            $query = $this->HeaderLoModel->query($sql, [$divisi, $monthAndYear]);
+            if ($query->getNumRows() <> 0) {
+                // Jika data ditemukan, ambil nilai terakhir
+                $data = $query->getRow();
+                $kode = intval($data->localOrderNo) + 1;
+            } else {
+                // Jika tidak ada data ditemukan, mulai dari 1
+                $kode = 1;
+            }
+            $result = sprintf("%04d", $kode);
+            $resultscode = $groupBranch."/LO/".$divisi."/".$month."/".$year."/".$result;
+            //END CODE FOR CREATE NO LO
+           
+            $now = new \DateTime();
+        
+             // untuk bulan +1 dari bulan sekarang
+            $previousMonth = $now->modify('first day of +1 month');
+            $Month = $previousMonth->format('m');
+            $Year = $previousMonth->format('Y');
+            $combined =  $Month.$Year;
+              
+             // untuk bulan -1 dari bulan sekarang
+             $nowone = new \DateTime();
+             $previousMonths = clone $nowone; // Clone objek $now agar tidak memodifikasi $now
+             $previousMonths->modify('first day of -1 month'); // Mengubah ke bulan sebelumnya
+             $Months = $previousMonths->format('m'); // Format bulan (angka)
+             $Years = $previousMonths->format('Y'); // Format tahun (4 digit)
+             $combineds = $Months . $Years; // Menggabungkan bulan dan tahun
+       
+             // untuk data bulan sekarang
+            $bulanNow = date("m");
+            $yearNow = date('Y');
+            $datesNow = date('Y-m-d');
+            $CombinedNow = $bulanNow.$yearNow;
+
+          
+             // untuk bulan +2 dari bulan sekarang
+            $nows = new \DateTime();
+            $nextTwoMonths = clone $nows; // Clone objek $now agar tidak memodifikasi $now
+            $nextTwoMonths->modify('first day of +2 month'); // Mengubah ke dua bulan ke depan
+            $Month2 = $nextTwoMonths->format('m'); // Format bulan (angka)
+            $Year2 = $nextTwoMonths->format('Y'); // Format tahun (4 digit)
+            $combined2 = $Month2 . $Year2; 
+            
+            // array for header save data
+            $header = [
+                'periode' => $monthAndYear,
+                'localOrderNo' => $resultscode,
+                'divisiId' => $divisi,
+                'formula' => 'Default',
+                'createdAt' => $datesNow,
+                'createdBy' => $userId
+            ];
+            $this->HeaderLoModel->insert($header);
+          
+            //array for detail
+            $partIDs = $this->request->getPost('partID'); // Mengambil array partID dari input POST
+
+            foreach ($partIDs as $key => $x) {
+                $detail = [
+                    'localOrderNo' => $resultscode,
+                    'idPartDivisi' => $x,
+                    'keterangan' => $this->request->getPost('keterangan')[$key],
+                    'month1' => $combineds,
+                    'endStockMonth1' => $this->request->getPost('endStockMonth1')[$key],
+                    'month2' => $CombinedNow,
+                    'inActualMonth2' => $this->request->getPost('inActualMonth2')[$key],
+                    'hpoMonth2' => $this->request->getPost('hpoMonth2')[$key],
+                    'outPlanMonth2' => $this->request->getPost('outPlanMonth2')[$key],
+                    'orderMonth2' => $this->request->getPost('orderMonth2')[$key],
+                    'balancePlanMonth2' => $this->request->getPost('balancePlanMonth2')[$key],
+                    'planMonth2' => $this->request->getPost('planMonth2')[$key],
+                    'month3' => $combined,
+                    'outPlanMonth3' => $this->request->getPost('outPlanMonth3')[$key],
+                    'balancePlanMonth3' => $this->request->getPost('balancePlanMonth3')[$key],
+                    'planMonth3' => $this->request->getPost('planMonth3')[$key],
+                    'month4' => $combined2,
+                    'outPlanMonth4' => $this->request->getPost('outPlanMonth4')[$key],
+                    'orderMonthPO' => $this->request->getPost('hasilKonversi')[$key]
+                ];
+                 $this->DetailLoModel->insert($detail);
+                 $this->DetailLoModelLog->insert($detail);
+}
+                    }
+
+
 }
