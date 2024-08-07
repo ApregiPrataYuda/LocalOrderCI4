@@ -70,6 +70,7 @@ input:valid, textarea:valid {
 <!--start view for user -->
   <section class="content col-md-12">
         <!-- Default box -->
+        <!-- <div class="card" style="width: 2560px;"> -->
         <div class="card">
           <div class="card-header">
             <h3 class="card-title font-weight-bolder text-dark">HEADER</h3>
@@ -146,12 +147,11 @@ input:valid, textarea:valid {
            <!-- start code Button -->
             <a id="getPartsDivisi" class="btn btn-outline-info btn-sm clicks" style="display:none;"><i class="fa fa-plus"></i> Add Parts </a>
 			<a href="<?= base_url('Form-Local-Order')?>" id="reset"  class="btn btn-outline-warning btn-sm clicks2" style="display:none;"><i class="fa fa-undo"></i> Reset</a>
-			<!-- <button type="button" class="btn btn-outline-info btn-sm submits" data-toggle="modal" data-target="#modalSave">
-			 <i class="fa fa-save"></i> Next
-            </button> -->
             <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="checkData" style="display:none;"><i class="fa fa-trash"></i> Remove Item</button>
-            <button type="button" id="saveButton" class="btn btn-sm btn-outline-primary" style="display:none;"><i class="fa fa-paper-plane"></i> Save</button>
-          
+            <button type="button" id="saveButton" class="btn btn-sm btn-outline-info" style="display:none;"><i class="fa fa-paper-plane"></i> Save</button>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#userGuideModal">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            </button>
             <!-- end code Button -->
            <hr>
             <!-- start code check -->
@@ -165,7 +165,7 @@ input:valid, textarea:valid {
             </div>
              <input type="text" class="form-control font-weight-bold text-uppercase" readonly placeholder="Formula Opsional">
             </div> -->
-
+       
             <div class="input-group col-md-2 mb-1">
             <div class="input-group-prepend">
                 <div class="input-group-text">
@@ -176,10 +176,6 @@ input:valid, textarea:valid {
             </div>
             </div>
              <!-- end code check -->
-
-
-
-
 
              <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -277,6 +273,58 @@ input:valid, textarea:valid {
 </div>
 
 
+<!-- Modal user guide-->
+<div class="modal fade" id="userGuideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Guide (Informasi Cara Penggunaan)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <h5 class="font-weight-bold">Instruksi</h5>
+
+        <p class="font-weight-bold text-danger">### Penjelasan Validasi Inputan</p>
+        <p class="font-weight-bold">1. **Semua kolom "OUT Plan" wajib diisi.**</p>
+        <p class="font-weight-bold">2. **Kolom keterangan boleh dibiarkan kosong.**</p>
+
+        <p class="font-weight-bold text-danger">### Kegunaan Tombol</p>
+
+        <p class="font-weight-bold">1. **Pilih Divisi**<br> 
+        - Tombol ini akan menampilkan tombol "Add Parts" setelah Anda memilih divisi.<br><br>  
+
+        2. **Tombol Add Parts**<br>   
+        - Klik tombol ini untuk menampilkan data part sesuai dengan divisi yang telah Anda pilih.<br><br>  
+
+        3. **Tombol Reset**<br>   
+        - Tombol ini digunakan untuk mengembalikan atau mereset tampilan ke kondisi awal.<br> <br> 
+
+        4. **Tombol Remove Item**<br>   
+        - Tombol ini digunakan untuk menghapus semua data yang tercentang (checkbox) dari daftar.<br><br>  
+
+        5. **Tombol Save Data**<br>   
+        - Tombol ini digunakan untuk menyimpan semua data Local Order yang sudah dikalkulasi.<br><br>  
+
+        6. **Checkbox [Remove for All]**<br>   
+        - Centang checkbox ini untuk memilih semua data. Data yang tercentang adalah data yang akan dihapus ketika Anda klik tombol "Remove Item". Data yang tidak dicentang adalah data yang akan dipilih untuk dilakukan kalkulasi Local Order.<br><br>  
+
+        7. **Jika dirasa semua data sudah sesuai, silakan simpan data.**<br><br> 
+
+        8. **Data yang berhasil disimpan dapat Anda lihat di menu Report dan mencetaknya dari sana.** <br><br> </p>
+        
+       <p class="font-weight-bold text-danger">9. **pembuatan local order hanya dilakukan 1 kali saja (pastikan lebih teliti saat pembuatan).** <br><br></p> 
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Does it Help (Close)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
     // code get part divisi
  $(document).ready(function() {
@@ -333,6 +381,8 @@ input:valid, textarea:valid {
                                 </td>
                                 <td style="width: 3%;">
                                     <input type="text" name="standart_Pack[]" class="form-control standart_Pack" value="${itemData[i].standart_Pack}" readonly>
+                                    <input type="hidden" name="UnitID_Stock[]" id="UnitID_Stock" class="form-control UnitID_Stock" value="${itemData[i].UnitID_Stock}" readonly>\
+                                    <input type="hidden" name="UnitID_PO[]" id="UnitID_PO" class="form-control UnitID_PO" value="${itemData[i].UnitID_PO}" readonly>\
                                 </td>
                                 <td style="width: 3%;">
                                     <input type="text" name="minimum_Order[]" class="form-control minimum_Order" value="${itemData[i].minimum_Order}" readonly>
@@ -362,7 +412,7 @@ input:valid, textarea:valid {
                                     <input type="text" name="orderMonth2[]" class="form-control orderMonth2" placeholder="0" readonly>
                                 </td>
                                 <td style="width: 4%; background: yellow;">
-                                    <input type="text" name="Konversi[]" class="form-control Konversi" value="${Math.round(itemData[i].Konversi)}" readonly>
+                                    <input type="hidden" name="Konversi[]" class="form-control Konversi" value="${Math.round(itemData[i].Konversi)}" readonly>
                                     <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>
                                 </td>
                                 <td style="width: 4%;">
@@ -413,7 +463,7 @@ input:valid, textarea:valid {
 $(document).ready(function() {
     // Event handler untuk keyup di dalam tabel
     $('#tbl_po_list').on('keyup', 'input, textarea', function(event) {
-        console.log('Key up event triggered in table cell');
+        // console.log('Key up event triggered in table cell');
         let activeElement = $(this);
         $('#tbl_po_list .selected').each(function() {
           //step 1  
@@ -536,32 +586,32 @@ $(document).ready(function() {
 
 
 
-
+     //start code old
     // $(document).ready(function() {
         // start calculateValues
-    function calculateValues() {
-        $('#tbl_po_list tbody tr').each(function() {
-            // Default values if NaN
-            var endStockMonth1 = parseFloat($(this).find('.endStockMonth1').val()) || 0;
-            var inActualMonth2 = parseFloat($(this).find('.inActualMonth2').val()) || 0;
-            var hpoMonth2 = parseFloat($(this).find('.hpoMonth2').val()) || 0;
-            var outPlanMonth2 = parseFloat($(this).find('.outPlanMonth2').val()) || 0;
-            var planMonth2 = parseFloat($(this).find('.planMonth2').val()) || 0;
-            var safety_Stock = parseFloat($(this).find('.safety_Stock').val()) || 0;
-            var outPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
-            var minimumOrder = parseFloat($(this).find('.minimum_Order').val()) || 0;
-            var standartPack = parseFloat($(this).find('.standart_Pack').val()) || 0;
+    // function calculateValues() {
+    //     $('#tbl_po_list tbody tr').each(function() {
+    //         // Default values if NaN
+    //         var endStockMonth1 = parseFloat($(this).find('.endStockMonth1').val()) || 0;
+    //         var inActualMonth2 = parseFloat($(this).find('.inActualMonth2').val()) || 0;
+    //         var hpoMonth2 = parseFloat($(this).find('.hpoMonth2').val()) || 0;
+    //         var outPlanMonth2 = parseFloat($(this).find('.outPlanMonth2').val()) || 0;
+    //         var planMonth2 = parseFloat($(this).find('.planMonth2').val()) || 0;
+    //         var safety_Stock = parseFloat($(this).find('.safety_Stock').val()) || 0;
+    //         var outPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
+    //         var minimumOrder = parseFloat($(this).find('.minimum_Order').val()) || 0;
+    //         var standartPack = parseFloat($(this).find('.standart_Pack').val()) || 0;
 
             // Calculate balancePlanMonth2
-            var summing = endStockMonth1 + inActualMonth2 + hpoMonth2;
-            var resultForoutPlanMonth2 = summing - outPlanMonth2;
-            $(this).find('.balancePlanMonth2').val(resultForoutPlanMonth2);
+            // var summing = endStockMonth1 + inActualMonth2 + hpoMonth2;
+            // var resultForoutPlanMonth2 = summing - outPlanMonth2;
+            // $(this).find('.balancePlanMonth2').val(resultForoutPlanMonth2);
 
-            // Calculate planMonth2
-            var balancePlanMonth2 = Math.abs(parseFloat($(this).find('.balancePlanMonth2').val()) || 0);
-            var hasilBagi = (balancePlanMonth2 / (outPlanMonth3 || 1)); // Avoid division by zero
-            var planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
-            $(this).find('.planMonth2').val(planMonth2Value);
+            // // Calculate planMonth2
+            // var balancePlanMonth2 = Math.abs(parseFloat($(this).find('.balancePlanMonth2').val()) || 0);
+            // var hasilBagi = (balancePlanMonth2 / (outPlanMonth3 || 1)); // Avoid division by zero
+            // var planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
+            // $(this).find('.planMonth2').val(planMonth2Value);
 
             // Calculate orderMonth2 old version
             // var hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
@@ -575,110 +625,239 @@ $(document).ready(function() {
 
             // Calculate orderMonth2 new version
             // Menghitung hasil order
-                let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
-                let order = hasilOrder;
-                let mod = 0;
-                let mod2 = 0;
-                let mod3 = 0;
-                // Menggunakan logika kondisional untuk menghitung nilai orderMonth2
-                if (standartPack > 1) {
-                    mod = order % standartPack;
-                    mod2 = standartPack - mod;
-                    mod3 = order + mod2;
-                } else {
-                    mod3 = order;
-                }
-                let mod4 = Math.abs(mod3);
-                // Mengatur nilai orderMonth2 berdasarkan minimumOrder dan kondisi lainnya
-                if (mod4 < minimumOrder) {
-                    $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
-                } else {
-                    if (mod3 < 0) {
-                        $(this).find('.orderMonth2').val(mod4);
-                    } else {
-                        let defaultOrders = 0;
-                        $(this).find('.orderMonth2').val(defaultOrders);
-                    }
-                }
+    //             let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+    //             let order = hasilOrder;
+    //             let mod = 0;
+    //             let mod2 = 0;
+    //             let mod3 = 0;
+    //             // Menggunakan logika kondisional untuk menghitung nilai orderMonth2
+    //             if (standartPack > 1) {
+    //                 mod = order % standartPack;
+    //                 mod2 = standartPack - mod;
+    //                 mod3 = order + mod2;
+    //             } else {
+    //                 mod3 = order;
+    //             }
+    //             let mod4 = Math.abs(mod3);
+    //             // Mengatur nilai orderMonth2 berdasarkan minimumOrder dan kondisi lainnya
+    //             if (mod4 < minimumOrder) {
+    //                 $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
+    //             } else {
+    //                 if (mod3 < 0) {
+    //                     $(this).find('.orderMonth2').val(mod4);
+    //                 } else {
+    //                     let defaultOrders = 0;
+    //                     $(this).find('.orderMonth2').val(defaultOrders);
+    //                 }
+    //             }
 
-        });
-    }
+    //     });
+    // }
     // Update calculations when input fields change
-    $('#tbl_po_list').on('input', 'input', function() {
-        calculateValues();
-    });
+    // $('#tbl_po_list').on('input', 'input', function() {
+    //     calculateValues();
+    // });
     // Initial calculation when the document is ready
-    calculateValues();
+    // calculateValues();
 //});
-// end calculateValues
+// end calculateValues code old
 
 
-//start calculateValuesMonthThere
+function calculateValues() {
+    $('#tbl_po_list tbody tr').each(function() {
+        // Caching DOM elements
+        const $row = $(this);
+        const endStockMonth1 = parseFloat($row.find('.endStockMonth1').val()) || 0;
+        const inActualMonth2 = parseFloat($row.find('.inActualMonth2').val()) || 0;
+        const hpoMonth2 = parseFloat($row.find('.hpoMonth2').val()) || 0;
+        const outPlanMonth2 = parseFloat($row.find('.outPlanMonth2').val()) || 0;
+        const planMonth2 = parseFloat($row.find('.planMonth2').val()) || 0;
+        const safety_Stock = parseFloat($row.find('.safety_Stock').val()) || 0;
+        const outPlanMonth3 = parseFloat($row.find('.outPlanMonth3').val()) || 0;
+        const minimumOrder = parseFloat($row.find('.minimum_Order').val()) || 0;
+        const standartPack = parseFloat($row.find('.standart_Pack').val()) || 0;
+
+        // Calculate balancePlanMonth2
+        const summing = endStockMonth1 + inActualMonth2 + hpoMonth2;
+        const resultForoutPlanMonth2 = summing - outPlanMonth2;
+        $row.find('.balancePlanMonth2').val(resultForoutPlanMonth2);
+
+        // Calculate planMonth2
+        const balancePlanMonth2 = Math.abs(parseFloat($row.find('.balancePlanMonth2').val()) || 0);
+        const hasilBagi = (balancePlanMonth2 / (outPlanMonth3 || 1)); // Avoid division by zero
+        const planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
+        $row.find('.planMonth2').val(planMonth2Value);
+
+        // Calculate orderMonth2
+        let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+        let mod = 0;
+        let mod2 = 0;
+        let mod3 = 0;
+
+        if (standartPack > 1) {
+            mod = hasilOrder % standartPack;
+            mod2 = standartPack - mod;
+            mod3 = hasilOrder + mod2;
+        } else {
+            mod3 = hasilOrder;
+        }
+
+        const mod4 = Math.abs(mod3);
+        const finalOrder = mod4 < minimumOrder ? minimumOrder : mod4;
+
+        $row.find('.orderMonth2').val(finalOrder);
+    });
+}
+
+// Update calculations when input fields change
+$('#tbl_po_list').on('input', 'input', function() {
+    clearTimeout(window.calculateValuesTimeout);
+    window.calculateValuesTimeout = setTimeout(calculateValues, 300); // Debounce the function call
+});
+
+// Initial calculation when the document is ready
+$(document).ready(calculateValues);
+
+
+
+
+//start calculateValuesMonthThere old code
+// function calculateValuesMonthThere() {
+//         $('#tbl_po_list tbody tr').each(function() {
+//             // Ambil nilai dari inputan
+//             var getValueBalancePlanMonth2 = parseFloat($(this).find('.balancePlanMonth2').val()) || 0;
+//             var getValueOrderMonth2 = parseFloat($(this).find('.orderMonth2').val()) || 0;
+//             var getValueOutPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
+//             var getNoKonversiBasic = parseFloat($(this).find('.Konversi').val()) || 0;
+
+//             // Hitung hasil konversi dan order
+//             var resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
+//             $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+
+//             // Hitung sumForBalancePlanMontTiga
+//             var sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
+
+//             // Set nilai untuk balancePlanMonth3
+//             $(this).find('.balancePlanMonth3').val(Math.abs(sumForBalancePlanMontTiga));
+//         });
+//     }
+
+//     // Update calculations when input fields change
+//     $('#tbl_po_list').on('input', 'input', function() {
+//         calculateValuesMonthThere();
+//     });
+//     // Initial calculation when the document is ready
+//     calculateValuesMonthThere();
+//end calculateValuesMonthThere old code
+
+// Function to calculate values for Month There
 function calculateValuesMonthThere() {
-        $('#tbl_po_list tbody tr').each(function() {
-            // Ambil nilai dari inputan
-            var getValueBalancePlanMonth2 = parseFloat($(this).find('.balancePlanMonth2').val()) || 0;
-            var getValueOrderMonth2 = parseFloat($(this).find('.orderMonth2').val()) || 0;
-            var getValueOutPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
-            var getNoKonversiBasic = parseFloat($(this).find('.Konversi').val()) || 0;
+    $('#tbl_po_list tbody tr').each(function() {
+        // Cache DOM elements
+        const $row = $(this);
+        const getValueBalancePlanMonth2 = parseFloat($row.find('.balancePlanMonth2').val()) || 0;
+        const getValueOrderMonth2 = parseFloat($row.find('.orderMonth2').val()) || 0;
+        const getValueOutPlanMonth3 = parseFloat($row.find('.outPlanMonth3').val()) || 0;
+        const getNoKonversiBasic = parseFloat($row.find('.Konversi').val()) || 0;
 
-            // Hitung hasil konversi dan order
-            var resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
-            $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+        // Calculate conversion and order result
+        const resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
+        $row.find('.hasilKonversi').val(resultKonversiAndOrder);
 
-            // Hitung sumForBalancePlanMontTiga
-            var sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
+        // Calculate sum for balancePlanMonth3
+        const sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
 
-            // Set nilai untuk balancePlanMonth3
-            $(this).find('.balancePlanMonth3').val(Math.abs(sumForBalancePlanMontTiga));
-        });
-    }
-
-    // Update calculations when input fields change
-    $('#tbl_po_list').on('input', 'input', function() {
-        calculateValuesMonthThere();
+        // Set value for balancePlanMonth3
+        $row.find('.balancePlanMonth3').val(Math.abs(sumForBalancePlanMontTiga));
     });
-    // Initial calculation when the document is ready
-    calculateValuesMonthThere();
-//end calculateValuesMonthThere
+}
+
+// Update calculations when input fields change
+$('#tbl_po_list').on('input', 'input', function() {
+    clearTimeout(window.calculateValuesMonthThereTimeout);
+    window.calculateValuesMonthThereTimeout = setTimeout(calculateValuesMonthThere, 300); // Debounce function call
+});
+
+// Initial calculation when the document is ready
+$(document).ready(calculateValuesMonthThere);
 
 
 
 
+//code old
+// function calculateValuesMonthFour() {
+//         $('#tbl_po_list tbody tr').each(function() {
+//             // Ambil nilai dari inputan
+//             var getValueBalancePlanMonth2 = parseFloat($(this).find('.balancePlanMonth2').val()) || 0;
+//             var getValueOrderMonth2 = parseFloat($(this).find('.orderMonth2').val()) || 0;
+//             var getValueOutPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
+//             var getNoKonversiBasic = parseFloat($(this).find('.Konversi').val()) || 0;
+//             var getValueOutPlanMonth4 = parseFloat($(this).find('.outPlanMonth4').val()) || 0;
+
+//             // Hitung hasil konversi dan order
+//             var resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
+//             $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+
+//             // Hitung sumForBalancePlanMontTiga
+//             var sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
+
+//             // Hitung hasil planMonth3
+//             var resultForPlanMonth3 = getValueOutPlanMonth4 !== 0 ? sumForBalancePlanMontTiga / getValueOutPlanMonth4 : 0;
+
+//             // Jika hasil pembagian adalah NaN atau Infinity, atur menjadi 0
+//             resultForPlanMonth3 = isFinite(resultForPlanMonth3) ? resultForPlanMonth3 : 0;
+
+//             // Atur nilai pada elemen .planMonth3
+//             $(this).find('.planMonth3').val(Math.ceil(resultForPlanMonth3));
+//         });
+//     }
+
+//     // Update calculations when input fields change
+//     $('#tbl_po_list').on('input', 'input', function() {
+//         calculateValuesMonthFour();
+//     });
+
+//     // Initial calculation when the document is ready
+//     calculateValuesMonthFour();
+    // code old
+
+    // Function to calculate values for Month Four
 function calculateValuesMonthFour() {
-        $('#tbl_po_list tbody tr').each(function() {
-            // Ambil nilai dari inputan
-            var getValueBalancePlanMonth2 = parseFloat($(this).find('.balancePlanMonth2').val()) || 0;
-            var getValueOrderMonth2 = parseFloat($(this).find('.orderMonth2').val()) || 0;
-            var getValueOutPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
-            var getNoKonversiBasic = parseFloat($(this).find('.Konversi').val()) || 0;
-            var getValueOutPlanMonth4 = parseFloat($(this).find('.outPlanMonth4').val()) || 0;
+    $('#tbl_po_list tbody tr').each(function() {
+        // Cache DOM elements
+        const $row = $(this);
+        const getValueBalancePlanMonth2 = parseFloat($row.find('.balancePlanMonth2').val()) || 0;
+        const getValueOrderMonth2 = parseFloat($row.find('.orderMonth2').val()) || 0;
+        const getValueOutPlanMonth3 = parseFloat($row.find('.outPlanMonth3').val()) || 0;
+        const getNoKonversiBasic = parseFloat($row.find('.Konversi').val()) || 0;
+        const getValueOutPlanMonth4 = parseFloat($row.find('.outPlanMonth4').val()) || 0;
 
-            // Hitung hasil konversi dan order
-            var resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
-            $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+        // Calculate conversion and order result
+        const resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
+        $row.find('.hasilKonversi').val(resultKonversiAndOrder);
 
-            // Hitung sumForBalancePlanMontTiga
-            var sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
+        // Calculate sum for balancePlanMonth3
+        const sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
 
-            // Hitung hasil planMonth3
-            var resultForPlanMonth3 = getValueOutPlanMonth4 !== 0 ? sumForBalancePlanMontTiga / getValueOutPlanMonth4 : 0;
+        // Calculate result for planMonth3
+        let resultForPlanMonth3 = getValueOutPlanMonth4 !== 0 ? sumForBalancePlanMontTiga / getValueOutPlanMonth4 : 0;
 
-            // Jika hasil pembagian adalah NaN atau Infinity, atur menjadi 0
-            resultForPlanMonth3 = isFinite(resultForPlanMonth3) ? resultForPlanMonth3 : 0;
+        // Ensure result is finite and set it to 0 if not
+        resultForPlanMonth3 = isFinite(resultForPlanMonth3) ? resultForPlanMonth3 : 0;
 
-            // Atur nilai pada elemen .planMonth3
-            $(this).find('.planMonth3').val(Math.ceil(resultForPlanMonth3));
-        });
-    }
-
-    // Update calculations when input fields change
-    $('#tbl_po_list').on('input', 'input', function() {
-        calculateValuesMonthFour();
+        // Update the value for planMonth3
+        $row.find('.planMonth3').val(Math.ceil(resultForPlanMonth3));
     });
+}
 
-    // Initial calculation when the document is ready
-    calculateValuesMonthFour();
+// Update calculations when input fields change
+$('#tbl_po_list').on('input', 'input', function() {
+    clearTimeout(window.calculateValuesMonthFourTimeout);
+    window.calculateValuesMonthFourTimeout = setTimeout(calculateValuesMonthFour, 300); // Debounce the function call
+});
+
+// Initial calculation when the document is ready
+$(document).ready(calculateValuesMonthFour);
 
 
 });
@@ -727,7 +906,7 @@ $('#saveButton').click(function() {
                     method: 'POST',
                     data: $('#form_lo').serialize(),
                     beforeSend: function() {
-                        $('#saveButton').prop('disabled', true).text('Sedang proses...');
+                        $('#saveButton').prop('disabled', false).text('Sedang proses...');
                     },
                     success: function(response) {
                 if (response.trim() === 'oke') {
@@ -736,7 +915,7 @@ $('#saveButton').click(function() {
                         title: "Error!",
                         text: "Failed to save data!",
                     }).then(function() {
-                        $('#saveButton').prop('disabled', false).text('Data Save Failed');
+                        $('#saveButton').prop('disabled', true).text('Data Save Failed');
                         window.location.href = '<?= base_url('Form-Local-Order') ?>';
                     });
                 } else {
@@ -746,7 +925,7 @@ $('#saveButton').click(function() {
                         text: "Success save data!",
                     }).then(function() {
                         $('#saveButton').prop('disabled', false).text('Success Save Data');
-                        // window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                        window.location.href = '<?= base_url('Form-Local-Order') ?>';
                     });
                 }
             },
@@ -845,4 +1024,7 @@ $('#saveButton').click(function() {
 				}
 			});
 </script>
+
+
+
 <?= $this->endSection() ?>

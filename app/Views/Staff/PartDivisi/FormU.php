@@ -161,7 +161,7 @@
     </div>
 </div>
 <div class="card-footer">
-<button type="button" class="btn btn-otline-info" data-toggle="modal" data-target="#userGuideModal">
+<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#userGuideModal">
 <i class="fa fa-exclamation-circle" aria-hidden="true"></i> information user guide <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
 </button>
 </div>
@@ -181,10 +181,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <p class="text-capitalize font-weight-bold">1. Select or search for your division's parts</p>
-        <p class="text-capitalize font-weight-bold">2. Fill in all the data and adjust it to your usage</p>
-        <p class="text-capitalize font-weight-bold">3. All data must be filled in</p>
-        <p class="text-capitalize font-weight-bold">4. If all the data has been filled in, please press the save button</p>
+        <p class="font-weight-bold">1. Pilih atau cari bagian Part divisi Anda.</p>
+        <p class="font-weight-bold">2. Ubah data dan sesuaikan dengan kebutuhan Anda.</p>
+        <p class="font-weight-bold">3. Setelah semua data di ubah, tekan tombol 'Update'.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Does it Help (Close)</button>

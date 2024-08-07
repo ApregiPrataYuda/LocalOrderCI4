@@ -124,9 +124,34 @@
           <!-- /.card-footer-->
         </div>
         <!-- /.card -->
+        <div class="card-footer">
+<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#userGuideModal">
+<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+</button>
+</div>
   </section>
 <!--start view for end -->
-
+<!-- Modal user guide-->
+<div class="modal fade" id="userGuideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Guide (Informasi Cara Penggunaan)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <p class="font-weight-bold">1.Pilih divisi.</p>
+      <p class="font-weight-bold">2.Klik tombol 'Showing'.</p>
+      <p class="font-weight-bold">3.Data parts akan muncul sesuai dengan divisi yang dipilih.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Does it Help (Close)</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

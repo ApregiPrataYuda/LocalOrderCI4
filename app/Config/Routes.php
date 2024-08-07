@@ -30,3 +30,14 @@ $routes->get('/delete-part-divisi/(:any)', 'Staff\Staff::delete_Part_div/$1');
 $routes->get('/Form-Local-Order', 'Staff\Staff::Form_Lo');
 $routes->get('/Data-Part-Divisi', 'Staff\Staff::Get_Part_Divisi');
 $routes->post('send-data-request-order', 'Staff\Staff::Accept_data_local_order');
+
+
+$routes->get('/Reports', 'Staff\Staff::Reports_LO');
+$routes->post('/send-divisi', 'Staff\Staff::get_Divisi');
+$routes->post('/List-Report-Data', 'Staff\Staff::result_report');
+$routes->post('/Print', 'Staff\Staff::print_report');
+
+
+$routes->get('/Update-Local-Order', 'Staff\Staff::Form_Lo_update');
+$routes->get('/get-Data-Local-Order', 'Staff\Staff::getDetailLo');
+$routes->post('/send-data-update', 'Staff\Staff::save_lo_data_update');

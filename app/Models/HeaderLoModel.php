@@ -12,5 +12,5 @@ class HeaderLoModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['idHeader','localOrderNo','periode','formula','divisiId','createdAt','createdBy'];
+    protected $allowedFields    = ['idHeader','localOrderNo','periode','formula','divisiId','createdAt','createdBy','updatedBy','updatedAt'];
 }

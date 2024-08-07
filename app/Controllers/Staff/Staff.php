@@ -10,6 +10,10 @@ use App\Models\PartsModel;
 use App\Models\HeaderLoModel;
 use App\Models\DetailLoModel;
 use App\Models\DetailLoModelLog;
+use App\Models\PRHeaderModel;
+use App\Models\PRDetailModel;
+use App\Models\PRActivityLogModel;
+use Config\Database;
 class Staff extends BaseController
 {
 
@@ -19,6 +23,9 @@ class Staff extends BaseController
     protected $HeaderLoModel;
     protected $DetailLoModel;
     protected $DetailLoModelLog;
+    protected $PRHeaderModel;
+    protected $PRDetailModel;
+    protected $PRActivityLogModel;
 
     public function __construct() {
         $this->PartDivisiModel = new PartDivisiModel();
@@ -27,6 +34,9 @@ class Staff extends BaseController
         $this->HeaderLoModel = new HeaderLoModel();
         $this->DetailLoModel = new DetailLoModel();
         $this->DetailLoModelLog = new DetailLoModelLog();
+        $this->PRHeaderModel = new PRHeaderModel();
+        $this->PRDetailModel = new PRDetailModel();
+        $this->PRActivityLogModel = new PRActivityLogModel();
     }
 
     public function Home()
@@ -38,6 +48,7 @@ class Staff extends BaseController
          }
 
 
+        //  start code part division
          public function Part_div()  {
             $getdivision = $this->request->getVar('divisiID');
             if ($getdivision == null || $getdivision == '') {
@@ -207,7 +218,11 @@ class Staff extends BaseController
          }
            
          }
+        //  end code part division
 
+
+
+        //start code local order
         public function Form_Lo()  {
             $data = [
                 'title' => 'Form Local Order'
@@ -344,8 +359,19 @@ class Staff extends BaseController
             $Month2 = $nextTwoMonths->format('m'); // Format bulan (angka)
             $Year2 = $nextTwoMonths->format('Y'); // Format tahun (4 digit)
             $combined2 = $Month2 . $Year2; 
+
+            $dateNowNeeded = new \DateTime();
+            $dateNeeded = $dateNowNeeded->modify('last day of this month');
+            $dateNeeded = $dateNeeded->format('Y-m-d');
             
-            // array for header save data
+
+            // menerapkan metode transction ci4
+               $db = Database::connect();
+                // Mulai transaksi
+                $db->transBegin();
+
+            try {
+            // array for header save data Lo
             $header = [
                 'periode' => $monthAndYear,
                 'localOrderNo' => $resultscode,
@@ -355,10 +381,45 @@ class Staff extends BaseController
                 'createdBy' => $userId
             ];
             $this->HeaderLoModel->insert($header);
-          
-            //array for detail
-            $partIDs = $this->request->getPost('partID'); // Mengambil array partID dari input POST
 
+             // array for header save data PRHD
+            $headerPR = [
+                'NoPR' => $resultscode,
+                'DivisionID' => $divisi,
+                'DatePR' => $datesNow,
+                'Applicant' => $userId,
+                'Notes' => '',
+                'TipePR' => 'NON_ASSET',
+                'CreateDate' => $datesNow,
+                'CreateBy' => $userId,
+                'CompanyCode' => 'RI'
+            ];
+            $this->PRHeaderModel->insert($headerPR);
+
+
+            $logPR = [
+                'UserID' => $userId,
+                'NoBukti' => $resultscode,
+                'NoBuktiReff' => $resultscode,
+                'TGL' => $datesNow,
+                'Modul' => 'MnuPurcPurchaseRequest',
+                'Keterangan' => '',
+                'CustomerOrSupplierID' => '', 
+                'JenisLog' => 'SAVE',
+                'version' => '',
+                'KompName' => '',
+                'UserName' => $userId,
+                'CreateBy' => $userId,
+                'CreateDate' => $datesNow,
+                'CompanyCode' => 'RI',
+                'LogDetail' => ''
+            ];
+            $this->PRActivityLogModel->insert($logPR);
+
+
+          
+            //array for detail data Lo
+            $partIDs = $this->request->getPost('partID'); // Mengambil array partID dari input POST
             foreach ($partIDs as $key => $x) {
                 $detail = [
                     'localOrderNo' => $resultscode,
@@ -381,10 +442,209 @@ class Staff extends BaseController
                     'outPlanMonth4' => $this->request->getPost('outPlanMonth4')[$key],
                     'orderMonthPO' => $this->request->getPost('hasilKonversi')[$key]
                 ];
+
+                // array for DETAIL save data PRDT
                  $this->DetailLoModel->insert($detail);
                  $this->DetailLoModelLog->insert($detail);
-}
-                    }
+
+
+                 $detailPR = [
+                    'NoPR' => $resultscode,
+                    'PartID' => $x,
+                    'WithDetail' => 0,
+                    'NoRevisi' => '',
+                    'ExplodedID' => '',
+                    'MappingNo' => '',
+                    'ProjectID' => '',
+                    'FormulaID' => '',
+                    'SupplierID' => '',
+                    'SubSupplierID' => '',
+                    'DateNeeded' => $dateNeeded,
+                    'QtyRequest_Stock' => $this->request->getPost('orderMonth2')[$key],
+                    'UnitID_Stock' => $this->request->getPost('UnitID_Stock')[$key],
+                    'QtyRequest_PO' => $this->request->getPost('hasilKonversi')[$key],
+                    'UnitID_PO' => $this->request->getPost('UnitID_PO')[$key],
+                    'QtyApprove' => 0,
+                    'Notes' => $this->request->getPost('keterangan')[$key],
+                    'DetailPart' => '',
+                    'StatusPA' => 'OPEN',
+                    'LastBuyDate' => $datesNow,
+                    'AlasanReject' => '',
+                    'PIC' => '',
+                    'PIC_Date' => '',
+                    'PIC_By' => '',
+                    'ApproveDate' => '',
+                    'ApplicantDT' => $userId,
+                    'CompanyCode' => 'RI'
+                ];
+                $this->PRDetailModel->insert($detailPR);
+            }
+            // Commit transaksi
+            $db->transCommit();
+            } catch (\Exception $e) {
+                // Rollback transaksi jika terjadi kesalahan
+                $db->transRollback();
+                // Log error atau lakukan penanganan kesalahan sesuai kebutuhan
+                log_message('error', 'Error during transaction: ' . $e->getMessage());
+                throw $e; // Rethrow exception if necessary
+            }
+                }
+   //end code local order
+
+
+   //start code reports
+  public function Reports_LO() {
+    $data = [
+        'title' => 'FILTER FOR VIEW REPORT '
+    ];
+        return view('Staff/Report/Data',$data);
+  }
+
+
+
+  public function get_Divisi()  {
+    $divisiName = $this->request->getPost('nameDivisi');
+    if ($divisiName) {
+        $builder = $this->HeaderLoModel->select('localOrderNo');
+        $builder->where('divisiId', $divisiName);
+        $builder->orderBy('idHeader', 'DESC');
+        $query = $builder->get()->getResult();
+        $output = '<option value="">-SELECT NO LOCAL ORDER-</option>';
+        foreach ($query as $row) {
+            $output .= '<option value="' . esc($row->localOrderNo) . '">' . esc($row->localOrderNo) . '</option>';
+        }
+        return $output;
+            }else {
+                $output = '<option value="">-DATA TIDAK TERSEDIA-</option>';
+            }
+  }
+
+
+  public function result_report()  {
+    $nameDivision = $this->request->getVar('divisi');
+    $noLocalOrder = $this->request->getVar('noLo');
+
+    $builder = $this->DetailLoModel->getDataReport($noLocalOrder, $nameDivision);
+    $builderrow = $this->DetailLoModel->getDataReportrow($noLocalOrder, $nameDivision);
+   
+    $data = [
+        'title' => 'RESULT REPORT ',
+        'divisi' => $nameDivision,
+        'noLocalOrder' => $noLocalOrder,
+        'row' => $builder,
+        'rows' => $builderrow
+    
+    ];
+        return view('Staff/Report/Dataresult',$data);
+  }
+
+  public function print_report() {
+    $nameDivision = $this->request->getVar('divisi');
+    $noLocalOrder = $this->request->getVar('noLo');
+  
+    $builder = $this->DetailLoModel->getDataReport($noLocalOrder, $nameDivision);
+    $builderrow = $this->DetailLoModel->getDataReportrow($noLocalOrder, $nameDivision);
+    
+    $data = [
+        'title' => 'Report',
+        'divisi' => $nameDivision,
+        'noLocalOrder' => $noLocalOrder,
+        'row' => $builder,
+        'rows' => $builderrow
+    
+    ];
+        return view('Staff/Report/Dataprint',$data);
+  }
+
+    //end code reports
+
+   //start code lo update
+   public  function Form_Lo_update()  {
+    $data = [
+        'title' => 'FORM LOCAL ORDER UPDATE'
+    ];
+        return view('Staff/Form-Local-Order/FormUpdate',$data);
+    }
+
+
+
+    public function getDetailLo()
+    {
+        // Mendapatkan variabel dari request
+        $divisi = $this->request->getVar('divisiName');
+        $nolocalorder = $this->request->getVar('noLocalOrder');
+
+        // Menyusun query SQL mentah
+        $query = "
+            SELECT A.idDetail, A.idPartDivisi, C.OtherID, C.PartName, D.safety_Stock, D.standart_Pack, A.keterangan, A.endStockMonth1, A.inActualMonth2, D.minimum_Order,
+                   A.hpoMonth2, A.outPlanMonth2, A.balancePlanMonth2, A.planMonth2, A.orderMonth2, A.outPlanMonth3, A.balancePlanMonth3, A.planMonth3, A.outPlanMonth4, B.formula, A.orderMonthPO, C.Konversi
+            FROM dbo.trans_local_orderDT AS A
+            LEFT JOIN dbo.trans_local_orderHD AS B ON A.localOrderNo = B.localOrderNo
+            LEFT JOIN dbo.Ms_Part AS C ON A.idPartDivisi = C.PartID
+            LEFT JOIN dbo.ms_part_divisi AS D ON C.PartID = D.partID
+            WHERE A.localOrderNo = ? AND B.divisiId = ?
+        ";
+
+        // Menjalankan query dengan parameter
+        $queryResult = $this->DetailLoModel->query($query, [$nolocalorder, $divisi]);
+
+        // Mendapatkan hasil dan mengembalikannya dalam format JSON
+        $result = $queryResult->getResultArray();
+        echo json_encode($result);
+    }
+
+
+
+
+    public function save_lo_data_update() {
+        $datesNow = date('Y-m-d');
+        
+        // Get the user from the session
+        $session = session();
+        $user = $session->get('UserID');
+        
+        // Get input data
+        // $noLocalOrders = $this->request->getPost('noLocalOrder');
+        // $header = [
+        //     'updatedAt' => $datesNow,
+        //     'updatedBy' => $user
+        // ];
+    //    echo $header;
+    //     d();
+     // Start header update
+     
+//    $this->HeaderLoModel->update($header);
+     // End header update
+
+     // Start detail update
+     $data = $this->request->getPost();
+
+     $batch = [];
+     if (isset($data['idDetail']) && is_array($data['idDetail'])) {
+         foreach ($data['idDetail'] as $i => $idDetail) {
+             $batch[] = [
+                 'idDetail' => $idDetail,
+                 'keterangan' => $data['keterangan'][$i] ?? null,
+                 'outPlanMonth2' => $data['outPlanMonth2'][$i] ?? null,
+                 'balancePlanMonth2' => $data['balancePlanMonth2'][$i] ?? null,
+                 'planMonth2' => $data['planMonth2'][$i] ?? null,
+                 'orderMonth2' => $data['orderMonth2'][$i] ?? null,
+                 'outPlanMonth3' => $data['outPlanMonth3'][$i] ?? null,
+                 'balancePlanMonth3' => $data['balancePlanMonth3'][$i] ?? null,
+                 'planMonth3' => $data['planMonth3'][$i] ?? null,
+                 'outPlanMonth4' => $data['outPlanMonth4'][$i] ?? null,
+                 'orderMonthPO' => $data['hasilKonversi'][$i] ?? null
+             ];
+         }
+     }
+
+     if (!empty($batch)) {
+         $builder = $this->DetailLoModel->table('trans_local_orderDT');
+         $builder->updateBatch($batch, 'idDetail');
+     }
+    }
+    //end code lo update
+
 
 
 }

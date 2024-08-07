@@ -5,7 +5,7 @@
             echo '
              <li style="font-style: bold; font-size: bold; color: RGB(245, 245, 245);" class="nav-header">Administrator</li>
             <li class="nav-item Active">
-            <a style="color: RGB(245, 245, 245);" href="'.site_url('Part-Divisi').'" class="nav-link">
+            <a style="color: RGB(245, 245, 245);" href="'.site_url('Parts-Division').'" class="nav-link">
             <i class="nav-icon  fas fa-shopping-basket"></i>
               <p style="color: RGB(245, 245, 245);">
               Master Part Divisi
@@ -13,7 +13,7 @@
             </a>
             </li> 
             <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-Order-Menu').'" class="nav-link">
+              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-order').'" class="nav-link">
               <i class="nav-icon  fas fa-truck"></i>
                 <p style="color: RGB(245, 245, 245);">
                 Local Order
@@ -22,7 +22,7 @@
               </li>
 
               <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-order-Report').'" class="nav-link">
+              <a style="color: RGB(245, 245, 245);" href="'.site_url('Reports').'" class="nav-link">
               <i class="nav-icon  fas fa-file-pdf"></i>
                <p style="color: RGB(245, 245, 245);">
                 Report
@@ -31,7 +31,7 @@
              </li>
 
              <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-order-update').'" class="nav-link">
+              <a style="color: RGB(245, 245, 245);" href="'.site_url('Update-Local-Order').'" class="nav-link">
               <i class="nav-icon  fas fa-edit"></i>
                <p style="color: RGB(245, 245, 245);">
                 Update Local Order
@@ -71,7 +71,7 @@
               </li>
 
               <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-order-Report').'" class="nav-link">
+              <a style="color: RGB(245, 245, 245);" href="'.site_url('Reports').'" class="nav-link">
               <i class="nav-icon  fas fa-file-pdf"></i>
                <p style="color: RGB(245, 245, 245);">
                 Report
@@ -80,7 +80,7 @@
              </li>
 
              <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Local-order-update').'" class="nav-link">
+              <a style="color: RGB(245, 245, 245);" href="'.site_url('Update-Local-Order').'" class="nav-link">
               <i class="nav-icon  fas fa-edit"></i>
                <p style="color: RGB(245, 245, 245);">
                 Update Local Order
