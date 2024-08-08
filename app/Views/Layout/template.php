@@ -22,7 +22,7 @@
   
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini <?= uri_string() == 'Form-Local-Order' ? 'sidebar-collapse' : null ?>">
   <!-- Site wrapper -->
   <div class="wrapper">
     <!-- Navbar -->
