@@ -161,8 +161,8 @@
     </div>
 </div>
 <div class="card-footer">
-<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#userGuideModal">
-<i class="fa fa-exclamation-circle" aria-hidden="true"></i> information user guide <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#userGuideModal">
+<i class="fa fa-exclamation-circle" aria-hidden="true"></i> informasi cara penggunaan<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
 </button>
 </div>
 </div>

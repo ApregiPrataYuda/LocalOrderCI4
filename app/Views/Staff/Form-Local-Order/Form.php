@@ -148,7 +148,7 @@ input:valid, textarea:valid {
             <a id="getPartsDivisi" class="btn btn-outline-info btn-sm clicks" style="display:none;"><i class="fa fa-plus"></i> Add Parts </a>
 			<a href="<?= base_url('Form-Local-Order')?>" id="reset"  class="btn btn-outline-warning btn-sm clicks2" style="display:none;"><i class="fa fa-undo"></i> Reset</a>
             <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="checkData" style="display:none;"><i class="fa fa-trash"></i> Remove Item</button>
-            <button type="button" id="saveButton" class="btn btn-sm btn-outline-info" style="display:none;"><i class="fa fa-paper-plane"></i> Save</button>
+            <button type="button" id="saveButton" class="btn btn-sm btn-outline-info" style="display:none;"><i class="fa fa-save"></i> Save Data</button>
             <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#userGuideModal">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             </button>
@@ -156,16 +156,6 @@ input:valid, textarea:valid {
            <hr>
             <!-- start code check -->
             <div class="row mt-1">
-                <!-- dimantikan karena default sudah digunakan -->
-            <!-- <div class="input-group col-md-2 mb-1">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                <input type="checkbox" class="cekList" id="cekList" name="cekList" value="using-formula-1">
-                </div>
-            </div>
-             <input type="text" class="form-control font-weight-bold text-uppercase" readonly placeholder="Formula Opsional">
-            </div> -->
-       
             <div class="input-group col-md-2 mb-1">
             <div class="input-group-prepend">
                 <div class="input-group-text">

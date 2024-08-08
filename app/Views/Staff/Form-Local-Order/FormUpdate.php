@@ -29,6 +29,10 @@ p{
     margin-top: -40px;
     }
 
+    input:valid, textarea:valid {
+    border: 2px solid green;
+}
+
 </style>
 
 <section class="content-header">
@@ -112,25 +116,28 @@ p{
          <div class="card-body">
          <div class="row mb-1">
          <div class="float-left ml-2">
+			<button id="btnShowData" class="btn btn-outline-info btn-sm buttonShow" style="display: none;"><i class="fa fa-search"></i> Show Data</button>
+			<a href="<?= base_url('Update-Local-Order')?>"  class="btn btn-outline-warning btn-sm buttonReset" style="display: none;"><i class="fa fa-undo"></i> Reset</a>
+            <button type="button" class="btn btn-outline-info btn-sm" id="buttonSubmit"  onclick="updateData()" style="display: none;"><i class="fa fa-save"></i> Update Data</button>
+            <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="deletebutton" style="display: none;"><i class="fa fa-trash"></i> Remove Item</button>
+        </div>
+        <div class="float-right ml-2">
+        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#userGuideModal">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        </button>
+        </div>
 
-			<button id="btnShowData" class="btn btn-outline-secondary btn-sm buttonShow"><i class="fa fa-search"></i> SHOW DATA</button>
-			<a href="<?= base_url('Update-Local-Order')?>"  class="btn btn-outline-warning btn-sm buttonReset"><i class="fa fa-undo"></i> Reset</a>
-      <button type="button" class="btn btn-outline-success btn-sm" id="buttonSubmit"  onclick="updateData()"><i class="fa fa-save"></i> Update</button>
-			<button type="button" class="btn btn-outline-danger btn-sm removeButton" id="deletebutton"><i class="fa fa-trash"></i> Remove Item</button>
-
-			
-			
-		</div>
-        <div class="input-group col-md-2 mb-2">
+         </div>
+         <hr>
+         <div class="input-group col-md-2 mb-2" id="divCheck"  style="display: none;">
             <div class="input-group-prepend">
                 <div class="input-group-text">
                 <input type="checkbox" aria-label="Checkbox for following text input" name="checkedAll" id="checkAll">
                 </div>
+                </div>
+              <input type="text" data-toggle="modal" data-target="#removeNoteModal" class="form-control font-weight-bold text-uppercase text-dark" aria-label="Check For Remove" readonly placeholder="Checks For Remove">
             </div>
-             <input type="text" data-toggle="modal" data-target="#removeNoteModal" class="form-control font-weight-bold text-uppercase text-dark" aria-label="Check For Remove" readonly placeholder="Checks For Remove">
-            </div>
-         </div>
-         
+            
             <!-- <div class="card"> -->
               <!-- <div class="card-header"> -->
               <div class="row">
@@ -207,6 +214,44 @@ p{
 </section>
 </form>
 
+<!-- Modal user guide-->
+<div class="modal fade" id="userGuideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Guide (Informasi Cara Penggunaan)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <p class="font-weight-bold text-danger">Instruksi.</p>
+      <p class="font-weight-bold">1. **Pilih Divisi**: <br> divisi dari daftar yang tersedia. Nomor lokal order yang sesuai akan muncul berdasarkan divisi yang dipilih. Jika nomor lokal order tidak muncul, berarti nomor lokal order belum dibuat untuk divisi tersebut.</p>
+
+      <p class="font-weight-bold">2. **Pilih Nomor Lokal Order**:<br> Pilih nomor lokal order dari daftar yang tersedia.</p>
+
+      <p class="font-weight-bold">3. **Tombol Show Data dan Reset**: <br> Setelah memilih nomor lokal order, akan muncul tombol **"Show Data"** dan tombol **"Reset"**.</p>
+
+      <p class="font-weight-bold">4. **Tombol Show Data**:<br> Klik tombol **"Show Data"** untuk menampilkan data yang akan diedit.</p>
+
+      <p class="font-weight-bold">5. **Tombol Reset**:<br> Klik tombol **"Reset"** untuk kembali ke awal dan menghapus semua pilihan.</p>
+
+      <p class="font-weight-bold">6. **Tombol Update Data**:<br> Klik tombol **"Update Data"** untuk mengirimkan data yang telah diperbarui.</p>
+
+      <p class="font-weight-bold">7. **Tombol Remove Item**:<br> Klik tombol **"Remove Item"** untuk menghapus data yang telah dicentang (checklist).</p>
+
+      <p class="font-weight-bold">8. **Tombol Check for Remove**:<br>  Klik tombol **"Check for Remove"** untuk mencentang semua data yang ada.</p><br>
+
+      <p class="font-weight-bold text-danger">**Catatan untuk Remove Data**:<p>
+      <p class="font-weight-bold">- **Data yang dicentang** akan dihapus.<br>
+        - **Data yang tidak dicentang** adalah data yang akan Anda edit.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Does it Help (Close)</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
      $(document).ready(function() {
@@ -324,6 +369,7 @@ p{
                     <td style="width: 10%;">\
                         <textarea name="idPartDivisi[]" rows="2" cols="10" class="form-control" readonly>' + items[i].idPartDivisi + '</textarea>\
                         <textarea name="idDetail[]" rows="2" cols="10" class="form-control" readonly hidden>' + items[i].idDetail + '</textarea>\
+                        <textarea name="idHeader[]" rows="2" cols="10" class="form-control" readonly hidden>' + items[i].idHeader + '</textarea>\
                     </td>\
                     <td style="width: 10%;">\
                         <textarea name="PartName[]" rows="2" cols="10" class="form-control" readonly>' + items[i].PartName + '</textarea>\
@@ -363,7 +409,7 @@ p{
                     </td>\
                     <td style="width: 4%; background: yellow;">\
                         <input type="text" name="Konversi[]" class="form-control Konversi" value="' + Math.round(items[i].Konversi) + '" readonly>\
-                        <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>\
+                        <input type="hidden" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>\
                     </td>\
                     <td style="width: 4%;">\
                         <input type="text" name="outPlanMonth3[]" class="form-control outPlanMonth3" min="0" placeholder="0" value="' + Math.round(items[i].outPlanMonth3) + '">\
@@ -403,7 +449,6 @@ $(document).ready(function() {
 
         // Hapus baris yang dipilih
         $('input:checkbox:checked').closest("tr").remove();
-
         // Tampilkan notifikasi SweetAlert2
         Swal.fire({
             icon: "success",
@@ -421,6 +466,27 @@ $(document).ready(function() {
             $('.checkeds').prop('checked', false);
         }
     });
+
+
+         $("#noLocalOrder").change(function () {
+           $("#btnShowData").show(1000)
+         })
+
+         $("#noLocalOrder").change(function () {
+           $(".buttonReset").show(1000)
+         })
+
+         $("#btnShowData").click(function () {
+           $("#buttonSubmit").show(1000)
+         })
+
+         $("#btnShowData").click(function () {
+           $("#divCheck").show(1000)
+         })
+
+         $("#btnShowData").click(function () {
+           $(".removeButton").show(1000)
+         })
 });
 </script>
 
@@ -477,49 +543,57 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
 <script>
 function updateData() {
     $.ajax({
         url: '<?= base_url('send-data-update') ?>',
         method: 'POST',
         data: $('#formLoUpdate').serialize(),
-        beforeSend: function() {
+        beforeSend: () => {
             $('#buttonSubmit').prop('disabled', true).text('Sedang proses...');
         },
-        success: function(response) {
-            // Determine success based on the response
+        success: response => {
             const isSuccess = response === 'oke';
-
-            // Show appropriate message
             Swal.fire({
-                icon: isSuccess ? 'success' : 'error',
-                title: isSuccess ? 'Good!' : 'Oops...',
+                icon: isSuccess ? 'error' : 'success',
+                title: isSuccess ? 'Gagal!' : 'Berhasil!',
                 text: isSuccess 
-                    ? 'Success, update Data!' 
-                    : 'success simpan!'
+                    ? 'Terjadi kesalahan saat memperbarui data!' 
+                    : 'Data berhasil diperbarui.'
+            }).then(() => {
+                $('#buttonSubmit').prop('disabled', false).text(isSuccess ? 'OKE' : 'Coba Lagi');
+                if (isSuccess) {
+                    setTimeout(() => {
+                        window.location.href = '<?= base_url('Update-Local-Order') ?>';
+                    }, 1000);
+                }else{
+                    setTimeout(() => {
+                        window.location.href = '<?= base_url('Update-Local-Order') ?>';
+                    }, 1000);
+                }
             });
-
-            // Update button state and hide modal
-            $('#buttonSubmit').prop('disabled', false).text(isSuccess ? 'OKE' : 'Save Lagi');
-
-
-            // Redirect after a short delay
-            const redirectUrl = isSuccess ? '<?= base_url('Update-Local-Order') ?>' : '#'; // Replace '#' if there's a different error URL
-            setTimeout(function() {
-                window.top.location = redirectUrl;
-            }, 2000);
         },
-        error: function() {
+        error: () => {
             Swal.fire({
-                icon: 'success',
-                title: 'Oops...',
-                text: 'succes save!'
+                icon: 'info',
+                title: 'Warning!',
+                text: 'Tidak Ada Data Yang Di Ubah.'
+            }).then(() => {
+                $('#buttonSubmit').prop('disabled', false).text('Coba Lagi');
+                setTimeout(() => {
+                        window.location.href = '<?= base_url('Update-Local-Order') ?>';
+                    }, 1000);
             });
-            $('#buttonSubmit').prop('disabled', false).text('Save Lagi');
         }
     });
 }
 </script>
+
+
+
+
 
 
 <?= $this->endSection() ?>

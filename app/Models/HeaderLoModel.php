@@ -13,4 +13,9 @@ class HeaderLoModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['idHeader','localOrderNo','periode','formula','divisiId','createdAt','createdBy','updatedBy','updatedAt'];
+
+   
+    public function update_data($idHeader, $header) {
+        return $this->update($idHeader, $header);
+    }
 }

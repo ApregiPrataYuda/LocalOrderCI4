@@ -577,7 +577,7 @@ class Staff extends BaseController
         // Menyusun query SQL mentah
         $query = "
             SELECT A.idDetail, A.idPartDivisi, C.OtherID, C.PartName, D.safety_Stock, D.standart_Pack, A.keterangan, A.endStockMonth1, A.inActualMonth2, D.minimum_Order,
-                   A.hpoMonth2, A.outPlanMonth2, A.balancePlanMonth2, A.planMonth2, A.orderMonth2, A.outPlanMonth3, A.balancePlanMonth3, A.planMonth3, A.outPlanMonth4, B.formula, A.orderMonthPO, C.Konversi
+                   A.hpoMonth2, A.outPlanMonth2, A.balancePlanMonth2, A.planMonth2, A.orderMonth2, A.outPlanMonth3, A.balancePlanMonth3, A.planMonth3, A.outPlanMonth4, B.formula, A.orderMonthPO, C.Konversi, B.idHeader
             FROM dbo.trans_local_orderDT AS A
             LEFT JOIN dbo.trans_local_orderHD AS B ON A.localOrderNo = B.localOrderNo
             LEFT JOIN dbo.Ms_Part AS C ON A.idPartDivisi = C.PartID
@@ -604,21 +604,19 @@ class Staff extends BaseController
         $user = $session->get('UserID');
         
         // Get input data
-        // $noLocalOrders = $this->request->getPost('noLocalOrder');
-        // $header = [
-        //     'updatedAt' => $datesNow,
-        //     'updatedBy' => $user
-        // ];
-    //    echo $header;
-    //     d();
-     // Start header update
-     
-//    $this->HeaderLoModel->update($header);
+        $noLocalOrders = $this->request->getPost('noLocalOrder');
+        $idHeader = $this->request->getPost('idHeader');
+        $header = [
+            'updatedAt' => $datesNow,
+            'updatedBy' => $user
+        ];
+
+        $this->HeaderLoModel->update_data($idHeader, $header);
+        
      // End header update
 
      // Start detail update
      $data = $this->request->getPost();
-
      $batch = [];
      if (isset($data['idDetail']) && is_array($data['idDetail'])) {
          foreach ($data['idDetail'] as $i => $idDetail) {
