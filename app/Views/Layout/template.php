@@ -142,6 +142,8 @@
   <script src="<?= base_url() ?>assets/backend/vendors/sweetalert2/sweetalert2.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?= base_url() ?>assets/backend/plugins/toastr/toastr.min.js"></script>
+  <script src="<?= base_url() ?>assets/backend/vendors/jquery-ui/jquery-ui.min.js" ></script>
+  <link href='<?= base_url() ?>assets/backend/vendors/jquery-ui/jquery-ui.css' rel='stylesheet'>
   <!-- Page specific script -->
 
   <script>

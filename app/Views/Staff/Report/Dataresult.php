@@ -356,7 +356,7 @@ input:valid, textarea:valid {
 
 </div>
 <div class="card-footer">
-<button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#userGuideModal">
+<button type="button" class="btn btn-outline-danger float-left" data-toggle="modal" data-target="#userGuideModal">
 <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
 </button>
 </div>

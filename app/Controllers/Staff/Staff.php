@@ -14,6 +14,7 @@ use App\Models\PRHeaderModel;
 use App\Models\PRDetailModel;
 use App\Models\PRActivityLogModel;
 use Config\Database;
+use App\Models\Reportsstock;
 class Staff extends BaseController
 {
 
@@ -26,6 +27,8 @@ class Staff extends BaseController
     protected $PRHeaderModel;
     protected $PRDetailModel;
     protected $PRActivityLogModel;
+    protected $Reportsstock;
+    
 
     public function __construct() {
         $this->PartDivisiModel = new PartDivisiModel();
@@ -37,10 +40,18 @@ class Staff extends BaseController
         $this->PRHeaderModel = new PRHeaderModel();
         $this->PRDetailModel = new PRDetailModel();
         $this->PRActivityLogModel = new PRActivityLogModel();
+        $this->Reportsstock = new Reportsstock();
+        
     }
+
 
     public function Home()
     {
+        $redirect = check_not_login();
+        if ($redirect) {
+            return $redirect;
+        }
+
         $data = [
             'title' => 'Local Order'
              ];
@@ -50,6 +61,10 @@ class Staff extends BaseController
 
         //  start code part division
          public function Part_div()  {
+            $redirect = check_not_login();
+                if ($redirect) {
+                    return $redirect;
+                }
             $getdivision = $this->request->getVar('divisiID');
             if ($getdivision == null || $getdivision == '') {
                 $data = [
@@ -67,8 +82,11 @@ class Staff extends BaseController
              }
 
         public function Add_Part_div() {
+            $redirect = check_not_login();
+            if ($redirect) {
+                return $redirect;
+            }
             $dataUnit = $this->UnitModel->findAll();
-         
             $data = [
                 'title' => 'Form Add Master Part Divisi',
                 'unitData' => $dataUnit
@@ -154,6 +172,10 @@ class Staff extends BaseController
 
 
         public function update_Part_div($id)  {
+            $redirect = check_not_login();
+            if ($redirect) {
+                return $redirect;
+            }
             $encryptionService = \Config\Services::encryptionService();
             $idpartdivisi = $encryptionService->decryptId($id);
             $dataUnit = $this->UnitModel->findAll();
@@ -208,6 +230,10 @@ class Staff extends BaseController
          }
 
         public function delete_Part_div($id)  {
+            $redirect = check_not_login();
+            if ($redirect) {
+                return $redirect;
+            }
             $encryptionService = \Config\Services::encryptionService();
             $idpartdivisi = $encryptionService->decryptId($id);
             $this->PartDivisiModel->delete($idpartdivisi);
@@ -224,6 +250,10 @@ class Staff extends BaseController
 
         //start code local order
         public function Form_Lo()  {
+            $redirect = check_not_login();
+            if ($redirect) {
+                return $redirect;
+            }
             $data = [
                 'title' => 'Form Local Order'
             ];
@@ -494,6 +524,10 @@ class Staff extends BaseController
 
    //start code reports
   public function Reports_LO() {
+    $redirect = check_not_login();
+    if ($redirect) {
+        return $redirect;
+    }
     $data = [
         'title' => 'FILTER FOR VIEW REPORT '
     ];
@@ -560,6 +594,10 @@ class Staff extends BaseController
 
    //start code lo update
    public  function Form_Lo_update()  {
+    $redirect = check_not_login();
+    if ($redirect) {
+        return $redirect;
+    }
     $data = [
         'title' => 'FORM LOCAL ORDER UPDATE'
     ];
@@ -643,6 +681,35 @@ class Staff extends BaseController
     }
     //end code lo update
 
+
+
+    public function Check_stock()  {
+        $redirect = check_not_login();
+        if ($redirect) {
+            return $redirect;
+        }
+        // Set timezone
+        date_default_timezone_set('Asia/Jakarta');
+        // Get the request service
+        $request = \Config\Services::request();
+        // Get parameters from the query string
+        $getstartdate = $request->getGet('startDate');
+        $getenddate = $request->getGet('enddate');
+        $getdivisi = $request->getGet('divisi');
+       
+        // Get session data
+        $session = session();
+        $group = $session->get('groupBranch');
+        // Fetch the data
+        $checkstock = $this->Reportsstock->getcheck($getstartdate, $getenddate, $getdivisi, $group)->getResult();
+
+
+        $data = [
+            'title' => 'Report Stock',
+             'datarow' => $checkstock
+        ];
+            return view('Staff/Report-stock-last/Data',$data);
+    }
 
 
 }

@@ -18,8 +18,10 @@ class Auth extends BaseController
 
     public function index()
     {
-        
-
+        $redirect = check_already_login();
+    if ($redirect) {
+        return $redirect;
+    }
         $data = [
             'title' => 'LOCAL ORDER - LOGIN'
       ];

@@ -242,7 +242,7 @@ p{
 
       <p class="font-weight-bold">8. **Tombol Check for Remove**:<br>  Klik tombol **"Check for Remove"** untuk mencentang semua data yang ada.</p><br>
 
-      <p class="font-weight-bold text-danger">**Catatan untuk Remove Data**:<p>
+      <p class="font-weight-bold text-danger">**Catatan ketika anda Ingin Remove item**:<p>
       <p class="font-weight-bold">- **Data yang dicentang** akan dihapus.<br>
         - **Data yang tidak dicentang** adalah data yang akan Anda edit.</p>
       </div>
