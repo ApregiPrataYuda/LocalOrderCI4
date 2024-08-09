@@ -13,4 +13,8 @@ class PRHeaderModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['NoPR','DivisionID','DatePR','Applicant','Notes','TipePR','CreateDate','CreateBy','CompanyCode'];
+
+    public function update_data_PRH($NoPR, $header) {
+        return $this->update($NoPR, $header);
+    }
 }

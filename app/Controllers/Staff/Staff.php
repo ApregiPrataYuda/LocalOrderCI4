@@ -15,6 +15,8 @@ use App\Models\PRDetailModel;
 use App\Models\PRActivityLogModel;
 use Config\Database;
 use App\Models\Reportsstock;
+use PhpParser\Node\Expr\Print_;
+
 class Staff extends BaseController
 {
 
@@ -616,10 +618,10 @@ class Staff extends BaseController
         $query = "
             SELECT A.idDetail, A.idPartDivisi, C.OtherID, C.PartName, D.safety_Stock, D.standart_Pack, A.keterangan, A.endStockMonth1, A.inActualMonth2, D.minimum_Order,
                    A.hpoMonth2, A.outPlanMonth2, A.balancePlanMonth2, A.planMonth2, A.orderMonth2, A.outPlanMonth3, A.balancePlanMonth3, A.planMonth3, A.outPlanMonth4, B.formula, A.orderMonthPO, C.Konversi, B.idHeader
-            FROM dbo.trans_local_orderDT AS A
-            LEFT JOIN dbo.trans_local_orderHD AS B ON A.localOrderNo = B.localOrderNo
-            LEFT JOIN dbo.Ms_Part AS C ON A.idPartDivisi = C.PartID
-            LEFT JOIN dbo.ms_part_divisi AS D ON C.PartID = D.partID
+            FROM trans_local_orderDT AS A
+            LEFT JOIN trans_local_orderHD AS B ON A.localOrderNo = B.localOrderNo
+            LEFT JOIN Ms_Part AS C ON A.idPartDivisi = C.PartID
+            LEFT JOIN ms_part_divisi AS D ON C.PartID = D.partID
             WHERE A.localOrderNo = ? AND B.divisiId = ?
         ";
 
@@ -635,25 +637,83 @@ class Staff extends BaseController
 
 
     public function save_lo_data_update() {
+       
         $datesNow = date('Y-m-d');
-        
         // Get the user from the session
         $session = session();
         $user = $session->get('UserID');
-        
         // Get input data
         $noLocalOrders = $this->request->getPost('noLocalOrder');
         $idHeader = $this->request->getPost('idHeader');
+        $divisiName = $this->request->getPost('divisis');
+        $idPartDivisi = $this->request->getPost('idPartDivisi');
+        $dateNowNeeded = new \DateTime();
+            $dateNeeded = $dateNowNeeded->modify('last day of this month');
+            $dateNeeded = $dateNeeded->format('Y-m-d');
+
+
+      //start update PRdetail       
+     $data2 = $this->request->getVar();
+     $batches = [];
+     foreach ($data2['idPartDivisi'] as $i => $idPartDivisi) {
+        $batches[] = [
+            'PartID' => $idPartDivisi,
+            'QtyRequest_Stock' => $data2['orderMonth2'][$i] ?? null,
+            'QtyRequest_PO' => $data2['hasilKonversi'][$i] ?? null,
+            'Notes' => $data2['keterangan'][$i] ?? null,
+        ];
+     }
+     if (!empty($batches)) {
+        $builder = $this->PRDetailModel->table('Trans_PRDT');
+        $builder->updateBatch($batches, 'PartID');
+    }   
+    //start update PRdetail     
+
+
+      // start header update
         $header = [
             'updatedAt' => $datesNow,
             'updatedBy' => $user
         ];
-
         $this->HeaderLoModel->update_data($idHeader, $header);
-        
      // End header update
 
-     // Start detail update
+
+     //start array for header update data PRHD
+     $headerPR = [
+        'NoPR' => $noLocalOrders,
+        'DivisionID' => $divisiName,
+        'DatePR' => $datesNow,
+        'Applicant' => $user,
+        'Notes' => 'tes',
+        'TipePR' => 'NON_ASSET',
+        'CreateBy' => $user,
+        'CompanyCode' => 'RI'
+    ];
+    $this->PRHeaderModel->update_data_PRH($noLocalOrders, $headerPR);
+     //end array for header update data PRHD
+
+     $logPR = [
+        'UserID' => $user,
+        'NoBukti' => $noLocalOrders,
+        'NoBuktiReff' => $noLocalOrders,
+        'TGL' => $datesNow,
+        'Modul' => 'MnuPurcPurchaseRequest',
+        'Keterangan' => '',
+        'CustomerOrSupplierID' => '', 
+        'JenisLog' => 'UPDATE',
+        'version' => '',
+        'KompName' => '',
+        'UserName' => $user,
+        'CreateBy' => $user,
+        'CreateDate' => $datesNow,
+        'CompanyCode' => 'RI',
+        'LogDetail' => ''
+    ];
+    $this->PRActivityLogModel->insert($logPR);
+
+
+     // Start detail update lo
      $data = $this->request->getPost();
      $batch = [];
      if (isset($data['idDetail']) && is_array($data['idDetail'])) {
@@ -678,8 +738,11 @@ class Staff extends BaseController
          $builder = $this->DetailLoModel->table('trans_local_orderDT');
          $builder->updateBatch($batch, 'idDetail');
      }
+      // end detail update
     }
     //end code lo update
+
+
 
 
 
@@ -702,7 +765,6 @@ class Staff extends BaseController
         $group = $session->get('groupBranch');
         // Fetch the data
         $checkstock = $this->Reportsstock->getcheck($getstartdate, $getenddate, $getdivisi, $group)->getResult();
-
 
         $data = [
             'title' => 'Report Stock',

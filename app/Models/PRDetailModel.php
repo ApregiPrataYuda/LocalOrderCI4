@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class PRDetailModel extends Model
 {
     protected $table            = 'Trans_PRDT';
-    // protected $primaryKey       = 'NoPR';
-    // protected $useAutoIncrement = true;
+    protected $primaryKey       = 'NoPR';
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
