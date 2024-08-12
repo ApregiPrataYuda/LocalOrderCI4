@@ -69,7 +69,8 @@ p{
             </div>
           </div>
           <div class="card-body">
-            <div class="card">
+            <!-- <div class="card"> -->
+            <div class="card" style="width: 2560px;">
               <div class="card-header">
 
               <div class="row">
@@ -90,12 +91,23 @@ p{
 					</div>
 				</div>
 
+                <div class="form-group row ml-6">
+					<label class="col-sm-4 col-form-label text-uppercase">SELECT NO LOCAL ORDER :</label>
+					<div class="col-sm-8">
+                    <select name="noLocalOrder" id="noLocalOrder" class="form-control">
+                            <option value="">-SELECT-</option>
+                                <?php 
+                                ?>
+                        </select>
+					</div>
+				</div>
+
 				</table>
 			</div>
 
             <div class="col-md-6 ml-auto">
 				<table style="width: 50%;">
-                <div class="form-group row">
+                <!-- <div class="form-group row">
 					<label class="col-sm-3 col-form-label text-uppercase">Select No Local Order:</label>
 					<div class="col-sm-8">
                     <select name="noLocalOrder" id="noLocalOrder" class="form-control">
@@ -105,7 +117,7 @@ p{
                      ?>
                     </select>
 					</div>
-				</div>
+				</div> -->
 				</table>
 			</div>
               </div>

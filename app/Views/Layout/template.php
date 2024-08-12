@@ -65,7 +65,7 @@
       <!-- Brand Logo -->
       <a href="" class="brand-link">
         <img src="<?= base_url() ?>assets/backend/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image">
-        <span style="color: RGB(245, 245, 245); font-style: bold;" class="brand-text font-weight-dark">Local Order</span>
+        <span style="color: RGB(245, 245, 245); font-style: bold;" class="brand-text font-weight-dark">LOCAL ORDER</span>
       </a>
 
       <!-- Sidebar -->
@@ -73,7 +73,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-          <img src="<?= base_url() ?>assets/backend/dist/img/avatar.png" class="img-circle elevation-2" alt="User Image">
+          <img src="<?= base_url() ?>assets/backend/dist/img/avatar4.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
             <a style="color: RGB(245, 245, 245);" href="" class="d-block">| <i class="fa fa-user"> <?= session()->get('UserName');?> </i></a>
@@ -115,9 +115,9 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block">
-        <b>Version</b> 0.0.0
+        <b>Version</b> 1.0.0
       </div>
-      <strong>Copyright &copy; 2024 <a class="text-info" href="">CI 4</a>.</strong> All rights reserved.
+      <strong><a class="text-danger" href="https://www.rinnai.co.id/">PT RINNAI INDONESIA &copy; 2024</a></strong>
     </footer>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">

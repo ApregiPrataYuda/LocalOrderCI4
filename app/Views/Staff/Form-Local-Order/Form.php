@@ -56,7 +56,7 @@ input:valid, textarea:valid {
 </div>
 <div class="col-sm-6">
 <ol class="breadcrumb float-sm-right">
-<!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+<li class="breadcrumb-item"><a href="<?= base_url('Local-order')?>">Back</a></li>
 <li class="breadcrumb-item active"><?= $title ?></li>
 </ol>
 </div>
@@ -70,8 +70,8 @@ input:valid, textarea:valid {
 <!--start view for user -->
   <section class="content col-md-12">
         <!-- Default box -->
-        <!-- <div class="card" style="width: 2560px;"> -->
-        <div class="card">
+        <div class="card" style="width: 2560px;">
+        <!-- <div class="card"> -->
           <div class="card-header">
             <h3 class="card-title font-weight-bolder text-dark">HEADER</h3>
 
@@ -306,6 +306,7 @@ input:valid, textarea:valid {
         
        <p class="font-weight-bold text-danger">9. **pembuatan local order hanya dilakukan 1 kali saja (pastikan lebih teliti saat pembuatan).** <br><br></p> 
     
+       <p class="font-weight-bold text-danger">9. **Jika ukuran layar terlalu lebar ke kanan anda bisa geser kanan** <br><br></p> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Does it Help (Close)</button>

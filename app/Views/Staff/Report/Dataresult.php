@@ -56,7 +56,7 @@ input:valid, textarea:valid {
 </div>
 <div class="col-sm-6">
 <ol class="breadcrumb float-sm-right">
-<!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+<li class="breadcrumb-item"><a href="<?= base_url('Reports')?>">BACK</a></li>
 <li class="breadcrumb-item active"><?= $title ?></li>
 </ol>
 </div>
