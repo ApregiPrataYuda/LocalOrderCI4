@@ -47,7 +47,7 @@ class PartDivisiModel extends Model
     public function getByRequest($division)
 {
     $builder = $this->db->table('ms_part_divisi as a')
-                       ->select('a.*, c.PartName, d.UnitName')
+                       ->select('a.*, c.PartName, d.UnitName, c.OtherID, c.Material')
                        ->join('Ms_Part as c', 'a.partID = c.partID', 'left')
                        ->join('Ms_Unit as d', 'a.unitID_StdPack = d.UnitID', 'left')
                        ->where('a.divisiID', $division)

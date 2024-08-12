@@ -102,7 +102,7 @@
                             echo "<tr>";
                             echo "<td>".$no++."</td>"; 
                             echo "<td>".$data->partID."</td>";
-                            echo "<td>".$data->PartName."</td>";
+                            echo "<td>".'-'.$data->PartName.'<br> -'.$data->OtherID.'<br> -'.$data->Material."</td>";
                             echo "<td>".$data->divisiID."</td>";
                             echo "<td>".$data->standart_Pack."</td>";
                             echo "<td>".$data->unitID_StdPack."</td>";

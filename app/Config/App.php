@@ -199,4 +199,7 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+
+    public $appName = 'APP-LO'; // Tambahkan ini
 }
