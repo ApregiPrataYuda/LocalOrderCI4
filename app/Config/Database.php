@@ -50,6 +50,7 @@ class Database extends Config
     //     ],
     // ];
 
+    //database local 
     public array $default = [
         'DSN'        => '',
         'hostname'   => '',
@@ -72,6 +73,8 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
     ];
+
+    
 
     //    /**
     //     * Sample database connection for SQLite3.
