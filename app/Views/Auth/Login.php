@@ -86,7 +86,7 @@
 
 
 <label for="version">
-new Version
+<a data-toggle="modal" data-target="#staticBackdrop">Note Version</a>
 </label>
 </div>
 
@@ -103,6 +103,27 @@ new Version
 
 </div>
 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Noted Version</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-capitalize font-weight-bold">- Release New Version 1.0.0 at (8-August-2024)</p>
+        <p class="text-capitalize font-weight-bold">- change the system appearance (8-August-2024)</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
