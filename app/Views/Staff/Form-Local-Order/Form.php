@@ -403,7 +403,7 @@ input:valid, textarea:valid {
                                     <input type="text" name="orderMonth2[]" class="form-control orderMonth2" placeholder="0" readonly>
                                 </td>
                                 <td style="width: 4%; background: yellow;">
-                                    <input type="hidden" name="Konversi[]" class="form-control Konversi" value="${Math.round(itemData[i].Konversi)}" readonly>
+                                    <input type="text" name="Konversi[]" class="form-control Konversi" value="${Math.ceil(itemData[i].Konversi)}" readonly>
                                     <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>
                                 </td>
                                 <td style="width: 4%;">
@@ -680,25 +680,47 @@ function calculateValues() {
         $row.find('.planMonth2').val(planMonth2Value);
 
         // Calculate orderMonth2
-        let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
-        let mod = 0;
+        // let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+        // let mod = 0;
+        // let mod2 = 0;
+        // let mod3 = 0;
+        // if (standartPack > 1) {
+        //     mod = hasilOrder % standartPack;
+        //     mod2 = standartPack - mod;
+        //     mod3 = hasilOrder + mod2;
+        // } else {
+        //     mod3 = hasilOrder;
+        // }
+        // const mod4 = Math.abs(mod3);
+        // const finalOrder = mod4 < minimumOrder ? minimumOrder : mod4;
+        // $row.find('.orderMonth2').val(finalOrder);
+        //new code Rumus
+        let hasilOrder = parseFloat(endStockMonth1) + parseFloat(inActualMonth2) + parseFloat(hpoMonth2) - parseFloat(outPlanMonth2) - parseFloat(safety_Stock) - parseFloat(outPlanMonth3);
+        let order = Math.abs(hasilOrder);
+        let mod = 0; 
         let mod2 = 0;
         let mod3 = 0;
-
-        if (standartPack > 1) {
-            mod = hasilOrder % standartPack;
-            mod2 = standartPack - mod;
-            mod3 = hasilOrder + mod2;
-        } else {
-            mod3 = hasilOrder;
+        mod = order % standartPack;
+        if (mod > 0) { 
+        mod2 = standartPack - mod;
+        mod3 = order + mod2;
+        }else{
+        mod3 = order;
         }
-
-        const mod4 = Math.abs(mod3);
-        const finalOrder = mod4 < minimumOrder ? minimumOrder : mod4;
-
-        $row.find('.orderMonth2').val(finalOrder);
-    });
-}
+        let mod4 = Math.abs(mod3);
+        if (mod4 < minimumOrder) {
+        $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
+        } else 
+        {
+        if (mod3 > 0) {
+        $(this).find('.orderMonth2').val(mod4);
+        }else{
+        let defaultOrders = 0;
+        $(this).find('.orderMonth2').val(defaultOrders);
+        }
+        }
+            });
+        }
 
 // Update calculations when input fields change
 $('#tbl_po_list').on('input', 'input', function() {
@@ -1022,7 +1044,7 @@ $('#saveButton').click(function() {
 
     // Tentukan tanggal di mana form bisa ditampilkan, misalnya tanggal 5 hingga 10 setiap bulan
     const startDay = 5;
-    const endDay = 10;
+    const endDay = 15;
 
     if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
         document.getElementById('accessDanied').style.display = 'block';

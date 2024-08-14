@@ -149,6 +149,9 @@ p{
                 </div>
               <input type="text" data-toggle="modal" data-target="#removeNoteModal" class="form-control font-weight-bold text-uppercase text-dark" aria-label="Check For Remove" readonly placeholder="Checks For Remove">
             </div>
+            <small class="text-danger font-weight-bold">**Jika Anda mengubah salah satu baris, disarankan untuk mengubah semua baris (outplan bulan ke-1, ke-2, ke-3) untuk konsistensi Hasil ORDER PO**</small>
+            <br>
+            <small class="text-danger font-weight-bold">**Disarankan untuk Me-Remove data yang tidak akan diubah ketika melakukan perubahan pada data**</small>
             
             <!-- <div class="card"> -->
               <!-- <div class="card-header"> -->
@@ -420,8 +423,8 @@ p{
                         <input type="text" name="orderMonth2[]" class="form-control orderMonth2" min="0" placeholder="0" value="' + Math.round(items[i].orderMonth2) + '" readonly>\
                     </td>\
                     <td style="width: 4%; background: yellow;">\
-                        <input type="text" name="Konversi[]" class="form-control Konversi" value="' + Math.round(items[i].Konversi) + '" readonly>\
-                        <input type="hidden" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>\
+                        <input type="text" name="Konversi[]" class="form-control Konversi" value="' + Math.ceil(items[i].Konversi) + '" readonly>\
+                        <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>\
                     </td>\
                     <td style="width: 4%;">\
                         <input type="text" name="outPlanMonth3[]" class="form-control outPlanMonth3" min="0" placeholder="0" value="' + Math.round(items[i].outPlanMonth3) + '">\
@@ -522,7 +525,7 @@ $(document).ready(function() {
             let getValueBalancePlanMonth2 = parseFloat($(this).find('.balancePlanMonth2').val()) || 0;
             let getValueOutPlanMonth3 = parseFloat($(this).find('.outPlanMonth3').val()) || 0;
             let getNoKonversiBasic = parseFloat($(this).find('.Konversi').val()) || 1; // Ensure non-zero divisor
-
+            
             // Calculate balancePlanMonth2
             let summing = endStockMonth1 + inActualMonth2 + hpoMonth2;
             let resultForoutPlanMonth2 = summing - outPlanMonth2;
@@ -532,13 +535,75 @@ $(document).ready(function() {
             let hasilBagi = (balancePlanMonth2x / outPlanMonth3) || 0;
             $(this).find('.planMonth2').val(Math.ceil(hasilBagi));
 
+            //  rumus old pertama
             // Calculate orderMonth2
-            let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
-            let mod = (standartPack > 1) ? hasilOrder % standartPack : 0;
-            let mod2 = standartPack - mod;
-            let mod3 = (standartPack > 1) ? hasilOrder + mod2 : hasilOrder;
+            // let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
+            // let mod = (standartPack > 1) ? hasilOrder % standartPack : 0;
+            // let mod2 = standartPack - mod;
+            // let mod3 = (standartPack > 1) ? hasilOrder + mod2 : hasilOrder;
+            // let mod4 = Math.abs(mod3);
+
+            // $(this).find('.orderMonth2').val(mod4 < minimumOrder ? minimumOrder : mod4);
+              
+             //  rumus old pertama
+            // let hasilOrder = parseFloat(endStockMonth1) + parseFloat(inActualMonth2) + parseFloat(hpoMonth2) - parseFloat(outPlanMonth2) - parseFloat(safety_Stock) - parseFloat(outPlanMonth3);
+            // if (isNaN(hasilOrder))
+            //     hasilOrder = 0;
+
+            // let order = Math.abs(hasilOrder);
+            // let mod = 0; 
+            // let mod2 = 0;
+            // let mod3 = 0;
+            // mod = order % standartPack; 
+            // if (mod > 0) {
+            //     mod2 = standartPack - mod;
+            //     mod3 = order + mod2;
+            // }else{
+            //     mod3 = order;
+            // }
+            // let mod4 = Math.abs(mod3);
+            // if (mod4 < minimumOrder) {
+            //     $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
+            // } else 
+            // {
+            //     if (mod3 > 0) {
+            //         $(this).find('.orderMonth2').val(mod4);
+
+            // }else{
+            //     let defaultOrders = 0;
+            //     $(this).find('.orderMonth2').val(defaultOrders);
+            //     }
+            // }
+
+            //rumus terbaru
+            let hasilOrder = parseFloat(endStockMonth1) + parseFloat(inActualMonth2) + parseFloat(hpoMonth2) - parseFloat(outPlanMonth2) - parseFloat(safety_Stock) - parseFloat(outPlanMonth3);
+            let order = Math.abs(hasilOrder);
+            let mod = 0; 
+            let mod2 = 0;
+            let mod3 = 0;
+            mod = order % standartPack;
+            if (mod > 0) { 
+            mod2 = standartPack - mod;
+            mod3 = order + mod2;
+            }else{
+            mod3 = order;
+            }
             let mod4 = Math.abs(mod3);
-            $(this).find('.orderMonth2').val(mod4 < minimumOrder ? minimumOrder : mod4);
+            if (mod4 < minimumOrder) {
+            $(this).find('.orderMonth2').val(Math.abs(minimumOrder));
+            } else 
+            {
+            if (mod3 > 0) {
+            $(this).find('.orderMonth2').val(mod4);
+            }else{
+            let defaultOrders = 0;
+            $(this).find('.orderMonth2').val(defaultOrders);
+            }
+            }
+
+
+            let resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
+            $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
 
             // Calculate balancePlanMonth3 and planMonth3
             let sumForBalancePlanMonthTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
@@ -549,8 +614,12 @@ $(document).ready(function() {
             $(this).find('.planMonth3').val(Math.ceil(resultForPlanMonth3));
 
             // Calculate hasilKonversi
-            let resultKonversiAndOrder = getValueOrderMonth2 / getNoKonversiBasic;
-            $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+            // let resultKonversiAndOrder = getValueOrderMonth2 / getNoKonversiBasic;
+            // console.log(Math.ceil(resultKonversiAndOrder));
+
+         
+            
+            // $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
         });
     });
 });
@@ -609,7 +678,7 @@ function updateData() {
 
     // Tentukan tanggal di mana form bisa ditampilkan, misalnya tanggal 5 hingga 10 setiap bulan
     const startDay = 5;
-    const endDay = 10;
+    const endDay = 15;
 
     if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
         document.getElementById('accessDanied').style.display = 'block';
