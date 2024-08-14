@@ -775,7 +775,7 @@ function calculateValuesMonthThere() {
 
         // Calculate conversion and order result
         const resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
-        $row.find('.hasilKonversi').val(resultKonversiAndOrder);
+        $row.find('.hasilKonversi').val(Math.ceil(resultKonversiAndOrder));
 
         // Calculate sum for balancePlanMonth3
         const sumForBalancePlanMontTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;

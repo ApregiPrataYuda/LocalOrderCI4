@@ -603,7 +603,7 @@ $(document).ready(function() {
 
 
             let resultKonversiAndOrder = getNoKonversiBasic !== 0 ? getValueOrderMonth2 / getNoKonversiBasic : 0;
-            $(this).find('.hasilKonversi').val(resultKonversiAndOrder);
+            $(this).find('.hasilKonversi').val(Math.ceil(resultKonversiAndOrder));
 
             // Calculate balancePlanMonth3 and planMonth3
             let sumForBalancePlanMonthTiga = getValueBalancePlanMonth2 + getValueOrderMonth2 - getValueOutPlanMonth3;
