@@ -56,7 +56,7 @@ p{
 <form onsubmit="return false" id="formLoUpdate">    
 <section class="content">
         <!-- Default box -->
-        <div class="card ml-2 mr-2">
+        <div class="card ml-2 mr-2" id="accessDanied">
           <div class="card-header" style="background-color:RGB(40, 178, 170);">
             <h3 class="card-title  text-light"></h3>
             <div class="card-tools">
@@ -602,10 +602,26 @@ function updateData() {
     });
 }
 </script>
+<script src="<?= base_url() ?>assets/backend/vendors/sweetalert2/sweetalert2.min.js"></script>
+<script>
+    const today = new Date();
+    const dayOfMonth = today.getDate();
 
+    // Tentukan tanggal di mana form bisa ditampilkan, misalnya tanggal 5 hingga 10 setiap bulan
+    const startDay = 5;
+    const endDay = 10;
 
-
-
-
-
+    if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
+        document.getElementById('accessDanied').style.display = 'block';
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Akses Terbatas',
+            text: 'Formulir ini hanya dapat diakses antara tanggal ' + startDay + ' hingga ' + endDay + ' setiap bulan.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'Reports'; // or 'Local-order' if that's the correct path
+        });
+    }
+</script>
 <?= $this->endSection() ?>

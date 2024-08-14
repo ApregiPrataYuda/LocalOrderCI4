@@ -116,8 +116,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <p class="text-capitalize font-weight-bold">- Release New Version 1.0.0 at (8-August-2024)</p>
-        <p class="text-capitalize font-weight-bold">- change the system appearance (8-August-2024)</p>
+        <p class="text-capitalize font-weight-bold">- Release New Version 1.0.0 at (update at 8-August-2024)</p>
+        <p class="text-capitalize font-weight-bold">- change the system appearance (update at 8-August-2024)</p>
+        <p class="text-capitalize font-weight-bold">- Adding a feature, your form can only be accessed from the 1st to the 15th of each month (update at 14-August-2024)</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
