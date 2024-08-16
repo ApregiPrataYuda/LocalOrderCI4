@@ -311,68 +311,97 @@ p{
         var noLocalOrder = $('#noLocalOrder').val();
         var nom = 1;
 
-        $.ajax({ 
-            type: "GET",   
-            url: "<?= site_url('get-Data-Local-Order') ?>", 
-            data: {
-                'divisiName': divisiName,
-                'noLocalOrder': noLocalOrder
-            },
-            success: function(result) { 
-                if (result) {
-                    var itemData = JSON.parse(result);
-                    var existingIds = [];
-                    var newItems = [];
-                    
-                    // Ambil ID yang sudah ada di tabel
-                    $('#tbl_po_list tbody tr').each(function() {
-                        var idPartDivisi = $(this).find('textarea[name="idPartDivisi[]"]').val();
-                        if (idPartDivisi) {
-                            existingIds.push(idPartDivisi);
-                        }
-                    });
+        //Cek apakah ada nopr di tabel trans PA jika ada maka gagalkan jika tidak ada lanjutkan process
+        //process code baru
 
-                    // Cek data baru yang sudah ada
-                    var alreadyExists = false;
-                    
-                    for (let i = 0; i < itemData.length; i++) {
-                        if (existingIds.includes(itemData[i].idPartDivisi)) {
-                            alreadyExists = true;
-                        } else {
-                            newItems.push(itemData[i]);
-                        }
-                    }
-                    
-                    if (alreadyExists) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Data Already Exists",
-                            text: "Beberapa data sudah ada di tabel. Hanya data baru yang akan ditambahkan.",
-                            confirmButtonText: "OK"
-                        }).then(() => {
-                            // Jika ada data baru, tambahkan ke tabel
-                            addNewItems(newItems);
-                        });
-                    } else {
-                        // Jika semua data baru, langsung tambahkan ke tabel
-                        addNewItems(itemData);
-                    }
-                } else { 
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Error, Data tidak tersedia!",
-                    });
-                }
-            },
-            error: function() {
+        $.ajax({ 
+        type: "GET",   
+        url: "<?= site_url('check-getFP') ?>", // Ganti dengan URL yang sesuai untuk pengecekan nopr
+        data: {
+            'noLocalOrder': noLocalOrder
+        },
+        success: function(response) { 
+            if (response.exists) {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
-                    text: "Terjadi kesalahan saat mengambil data!",
+                    title: "Data sudah di process GET FP",
+                    text: "Anda Tidak Bisa Melakukan Update Data.",
+                });
+            } else {
+                // Jika tidak ada nopr, lanjutkan proses utama
+                $.ajax({ 
+                    type: "GET",   
+                    url: "<?= site_url('get-Data-Local-Order') ?>", 
+                    data: {
+                        'divisiName': divisiName,
+                        'noLocalOrder': noLocalOrder
+                    },
+                    success: function(result) { 
+                        if (result) {
+                            var itemData = JSON.parse(result);
+                            var existingIds = [];
+                            var newItems = [];
+                            
+                            // Ambil ID yang sudah ada di tabel
+                            $('#tbl_po_list tbody tr').each(function() {
+                                var idPartDivisi = $(this).find('textarea[name="idPartDivisi[]"]').val();
+                                if (idPartDivisi) {
+                                    existingIds.push(idPartDivisi);
+                                }
+                            });
+
+                            // Cek data baru yang sudah ada
+                            var alreadyExists = false;
+                            
+                            for (let i = 0; i < itemData.length; i++) {
+                                if (existingIds.includes(itemData[i].idPartDivisi)) {
+                                    alreadyExists = true;
+                                } else {
+                                    newItems.push(itemData[i]);
+                                }
+                            }
+                            
+                            if (alreadyExists) {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Data Already Exists",
+                                    text: "Beberapa data sudah ada di tabel. Hanya data baru yang akan ditambahkan.",
+                                    confirmButtonText: "OK"
+                                }).then(() => {
+                                    // Jika ada data baru, tambahkan ke tabel
+                                    addNewItems(newItems);
+                                });
+                            } else {
+                                // Jika semua data baru, langsung tambahkan ke tabel
+                                addNewItems(itemData);
+                            }
+                        } else { 
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Error, Data tidak tersedia!",
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Terjadi kesalahan saat mengambil data!",
+                        });
+                    }
                 });
             }
-        });
+        },
+        error: function() {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat mengecek nopr!",
+            });
+        }
+    });
+    
 
         function addNewItems(items) {
             for (let i = 0; i < items.length; i++) {
@@ -423,7 +452,7 @@ p{
                         <input type="text" name="orderMonth2[]" class="form-control orderMonth2" min="0" placeholder="0" value="' + Math.round(items[i].orderMonth2) + '" readonly>\
                     </td>\
                     <td style="width: 4%; background: yellow;">\
-                        <input type="text" name="Konversi[]" class="form-control Konversi" value="' + Math.ceil(items[i].Konversi) + '" readonly>\
+                        <input type="hidden" name="Konversi[]" class="form-control Konversi" value="' + Math.ceil(items[i].Konversi) + '" readonly>\
                         <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>\
                     </td>\
                     <td style="width: 4%;">\
@@ -678,7 +707,7 @@ function updateData() {
 
     // Tentukan tanggal di mana form bisa ditampilkan, misalnya tanggal 5 hingga 10 setiap bulan
     const startDay = 5;
-    const endDay = 15;
+    const endDay = 20;
 
     if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
         document.getElementById('accessDanied').style.display = 'block';

@@ -403,7 +403,7 @@ input:valid, textarea:valid {
                                     <input type="text" name="orderMonth2[]" class="form-control orderMonth2" placeholder="0" readonly>
                                 </td>
                                 <td style="width: 4%; background: yellow;">
-                                    <input type="text" name="Konversi[]" class="form-control Konversi" value="${Math.ceil(itemData[i].Konversi)}" readonly>
+                                    <input type="hidden" name="Konversi[]" class="form-control Konversi" value="${Math.ceil(itemData[i].Konversi)}" readonly>
                                     <input type="text" name="hasilKonversi[]" class="form-control hasilKonversi" readonly>
                                 </td>
                                 <td style="width: 4%;">

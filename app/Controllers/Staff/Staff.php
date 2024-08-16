@@ -15,7 +15,9 @@ use App\Models\PRDetailModel;
 use App\Models\PRActivityLogModel;
 use Config\Database;
 use App\Models\Reportsstock;
+use App\Models\TransPAModel;
 use PhpParser\Node\Expr\Print_;
+
 
 class Staff extends BaseController
 {
@@ -30,6 +32,7 @@ class Staff extends BaseController
     protected $PRDetailModel;
     protected $PRActivityLogModel;
     protected $Reportsstock;
+    protected $TransPAModel;
     
 
     public function __construct() {
@@ -43,6 +46,7 @@ class Staff extends BaseController
         $this->PRDetailModel = new PRDetailModel();
         $this->PRActivityLogModel = new PRActivityLogModel();
         $this->Reportsstock = new Reportsstock();
+        $this->TransPAModel = new TransPAModel();
         
     }
 
@@ -607,6 +611,20 @@ class Staff extends BaseController
     }
 
 
+    public function check_nopr_in_tbl_transPa()  {
+        $getdatanolo = $this->request->getGet('noLocalOrder');
+         // Cek apakah nopr ada di tabel trans_pa
+        $exists = $this->TransPAModel->checkNoprExists($getdatanolo);
+
+        // Mengirim respons JSON ke AJAX
+        if ($exists) {
+            return $this->response->setJSON(['exists' => true]);
+        } else {
+            return $this->response->setJSON(['exists' => false]);
+        }
+    }
+
+
 
     public function getDetailLo()
     {
@@ -621,7 +639,7 @@ class Staff extends BaseController
             FROM trans_local_orderDT AS A
             LEFT JOIN trans_local_orderHD AS B ON A.localOrderNo = B.localOrderNo
             LEFT JOIN Ms_Part AS C ON A.idPartDivisi = C.PartID
-            LEFT JOIN ms_part_divisi AS D ON C.PartID = D.partID
+            LEFT JOIN ms_part_divisi AS D ON C.PartID = D.partID and D.divisiID = B.divisiId
             WHERE A.localOrderNo = ? AND B.divisiId = ?
         ";
 

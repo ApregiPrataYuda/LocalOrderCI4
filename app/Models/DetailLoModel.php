@@ -20,7 +20,7 @@ class DetailLoModel extends Model
         // Menyiapkan query SQL dengan binding parameter
         $sql = "SELECT a.idPartDivisi, c.OtherID, c.PartName, b.standart_Pack, b.safety_Stock, b.unitID_StdPack, b.minimum_Order,
                 a.keterangan, a.endStockMonth1, a.inActualMonth2, a.hpoMonth2, a.outPlanMonth2, a.orderMonth2, a.balancePlanMonth2, a.orderMonthPO,
-                a.planMonth2, a.outPlanMonth3, a.balancePlanMonth3, a.planMonth3, a.outPlanMonth4, d.formula, a.month1, a.month2, a.month3, a.month4
+                a.planMonth2, a.outPlanMonth3, a.balancePlanMonth3, a.planMonth3, a.outPlanMonth4, d.formula, a.month1, a.month2, a.month3, a.month4, b.UnitID_Stock
                 FROM trans_local_orderDT as a
                 LEFT JOIN ms_part_divisi as b on a.idPartDivisi = b.partID
                 LEFT JOIN Ms_Part as c on b.partID = c.PartID

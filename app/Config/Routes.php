@@ -41,6 +41,9 @@ $routes->post('/Print', 'Staff\Staff::print_report');
 $routes->get('/Update-Local-Order', 'Staff\Staff::Form_Lo_update');
 $routes->get('/get-Data-Local-Order', 'Staff\Staff::getDetailLo');
 $routes->post('/send-data-update', 'Staff\Staff::save_lo_data_update');
+$routes->get('/check-getFP', 'Staff\Staff::check_nopr_in_tbl_transPa');
+
+
 
 $routes->get('/Check-Stock-Last', 'Staff\Staff::Check_stock');
 $routes->get('/Notfound', 'Notfound\ErrorNotfound::index');

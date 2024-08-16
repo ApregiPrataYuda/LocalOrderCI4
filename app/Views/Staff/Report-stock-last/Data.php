@@ -109,7 +109,7 @@
                     <td><?= $value->OtherID?></td>
                     <td class="text-center"><?= $value->UnitID_Stock?></td>
                     <td class="text-center"><?= $value->UnitID_PO?></td>
-                    <td style="background-color: rgb(255,255,51);" class="text-center"><?= ($value->endstock == 0 ? '0' : $value->endstock)?></td>
+                    <td style="background-color: rgb(255,255,51);" class="text-center"><?= ($value->endstock == 0 ? '0' : number_format($value->endstock,0,",","."))?></td>
                     <td class="text-center"><?= $value->safety_Stock?></td>
                    </tr>
                  <?php }?>

@@ -86,7 +86,7 @@
 
 
 <label for="version">
-<a data-toggle="modal" data-target="#staticBackdrop">Note Version</a>
+<a data-toggle="modal" data-target="#staticBackdrop">Note Version 1.1.0</a>
 </label>
 </div>
 
@@ -119,6 +119,10 @@
         <p class="text-capitalize font-weight-bold">- Release New Version 1.0.0 at (update at 8-August-2024)</p>
         <p class="text-capitalize font-weight-bold">- change the system appearance (update at 8-August-2024)</p>
         <p class="text-capitalize font-weight-bold">- Adding a feature, your form can only be accessed from the 1st to the 15th of each month (update at 14-August-2024)</p>
+        <p class="text-capitalize font-weight-bold">- make changes to the print report <br>1.remove the outplan in the 3rd month.
+                                                    <br>2.add Stock ID Unit in the report column.
+                                               <br>3.change the name to the signature column (update at 15-August-2024)</p>
+                                               <p class="text-capitalize font-weight-bold">- upgrade 1.1.0 at (update at 15-August-2024)</p>    
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>

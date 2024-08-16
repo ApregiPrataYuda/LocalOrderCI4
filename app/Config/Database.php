@@ -50,7 +50,32 @@ class Database extends Config
     //     ],
     // ];
 
-    //database local 
+    //database connect to server 
+    // public array $default = [
+    //     'DSN'        => '',
+    //     'hostname'   => '10.12.0.5',
+    //     'username'   => 'sa',
+    //     'password'   => 'Novum2014',
+    //     'database'   => 'United2',
+    //     'schema'     => 'dbo',
+    //     'DBDriver'   => 'SQLSRV',
+    //     'DBPrefix'   => '',
+    //     'pConnect'   => false,
+    //     'DBDebug'    => true,
+    //     'charset'    => 'utf8',
+    //     'swapPre'    => '',
+    //     'encrypt'    => false,
+    //     'failover'   => [],
+    //     'port'       => '',
+    //     'dateFormat' => [
+    //         'date'     => 'Y-m-d',
+    //         'datetime' => 'Y-m-d H:i:s',
+    //         'time'     => 'H:i:s',
+    //     ],
+    // ];
+
+
+    //database local persiapan
     public array $default = [
         'DSN'        => '',
         'hostname'   => '',
@@ -73,31 +98,6 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
     ];
-
-
-    //database local persiapan
-    // public array $default = [
-    //     'DSN'        => '',
-    //     'hostname'   => '',
-    //     'username'   => 'sa',
-    //     'password'   => 'rinnai',
-    //     'database'   => 'local_order',
-    //     'schema'     => 'dbo',
-    //     'DBDriver'   => 'SQLSRV',
-    //     'DBPrefix'   => '',
-    //     'pConnect'   => false,
-    //     'DBDebug'    => true,
-    //     'charset'    => 'utf8',
-    //     'swapPre'    => '',
-    //     'encrypt'    => false,
-    //     'failover'   => [],
-    //     'port'       => '',
-    //     'dateFormat' => [
-    //         'date'     => 'Y-m-d',
-    //         'datetime' => 'Y-m-d H:i:s',
-    //         'time'     => 'H:i:s',
-    //     ],
-    // ];
 
     
 

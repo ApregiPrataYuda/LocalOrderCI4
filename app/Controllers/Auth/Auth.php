@@ -38,15 +38,14 @@ class Auth extends BaseController
                 $groupbranch =  htmlspecialchars(esc($this->request->getPost('Branch')));
                 $username = htmlspecialchars(esc($this->request->getPost('username')));
                 $password = htmlspecialchars(esc($this->request->getPost('password')));
-                $usersData =   $this->AuthModel->select('*')->where('username', $username)->get()->getRowArray();
+                $usersData =   $this->AuthModel->select('*')->where('UserID', $username)->get()->getRowArray();
              
                 if ($usersData) {
-
                    $DataPassword =  $usersData;
                    $passwordFromDb = $DataPassword['Password'];
                    $resultInput = md5($password);
                    $setToUpper = strtoupper($resultInput);
-
+                   
                    if ($setToUpper === $passwordFromDb) {
                     $checkActive = $usersData['Active'];
                     if ($checkActive != 0) {

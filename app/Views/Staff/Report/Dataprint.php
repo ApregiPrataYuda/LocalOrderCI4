@@ -198,8 +198,8 @@
         </table>
 <table class="fixed" style="border-collapse: collapse;">
    <tr height="30px">
-      <th style="width:120px; text-align:center; border: 1px solid black;">DIRECT/FACT.MAN</th>
-      <th style="width:120px; text-align:center; border: 1px solid black;">MANAGER</th>
+      <th style="width:120px; text-align:center; border: 1px solid black;"><div>SENIOR.MAN/</div>FACT.MAN</th>
+      <th style="width:120px; text-align:center; border: 1px solid black;"><div>MANAGER/</div>ASST.MAN</th>
       <th style="width:120px; text-align:center; border: 1px solid black;">CHIEF</th>
       <th style="width:120px; text-align:center; border: 1px solid black;">SUPERVISOR</th>
       <th style="width:120px; text-align:center; border: 1px solid black;">CREATE BY</th>
@@ -224,6 +224,7 @@
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="3%">Safety Stock</th>
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="3%">Minimum Order</th>
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="3%">Standart Pack</th>
+                <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="5%">Unit ID Stock</th>
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="5%">Unit ID Std Pack</th>
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;" width="10%">Note</th>
                 <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black; color: blue;" width="3%"> Stock <?php
@@ -337,44 +338,7 @@
 					?>
 			    </th>
 
-                <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black; color: blue;" width="5%"> 
-				    Plan OUT 
-                    <?php
-					// code ambil nama bulan 2 bulan ke depan
-					$now = new DateTime();
-					$previousMonth = $now->modify('first day of +2 month');
-					$monthfour = $previousMonth->format('m');
-                 $datamonth = isset($rows->month4) ? $rows->month4 : '';
-                  $monthone = substr($datamonth,4, 2);
-                  if ($monthone == 1) {
-                      echo 'January';
-                     }elseif ($monthone == 2) {
-                       echo 'February';
-                      }elseif ($monthone == 3) {
-                        echo 'March';
-                      }elseif ($monthone == 4) {
-                        echo 'April';
-                      }elseif ($monthone == 5) {
-                        echo 'May';
-                      }elseif ($monthone == 6) {
-                        echo 'June';
-                      }elseif ($monthone == 7) {
-                        echo 'July';
-                      }elseif ($monthone == 8) {
-                        echo 'August';
-                      }elseif ($monthone == 9) {
-                        echo 'September';
-                      }elseif ($monthone == 10) {
-                        echo 'October';
-                      }elseif ($monthone == 11) {
-                        echo 'November';
-                      }elseif ($monthone == 12) {
-                        echo 'December';
-                      }else {
-                       echo bulan($monthfour);
-                      }
-					?>
-			    </th>
+               
 
 				<!-- <th rowspan="2" scope="col"  style="text-align:center; border: 1px solid black;"></th> -->
               </tr>
@@ -404,6 +368,7 @@
                 echo "<td style='text-align:center; border: 1px solid black;'>".$data->safety_Stock."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".$data->minimum_Order."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".$data->standart_Pack."</td>";
+                echo "<td style='text-align:center; border: 1px solid black;'>".$data->UnitID_Stock."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".$data->unitID_StdPack."</td>";
                 echo "<td style='text-align:left; border: 1px solid black;'>".$data->keterangan."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".number_format($data->endStockMonth1,0,",",".")."</td>";
@@ -418,7 +383,6 @@
                 echo "<td style='text-align:center; border: 1px solid black;'>".($data->outPlanMonth3 == 0 ? '-' : number_format($data->outPlanMonth3,0,",","."))."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".($data->balancePlanMonth3 == 0 ? '-' : number_format($data->balancePlanMonth3,0,",","."))."</td>";
                 echo "<td style='text-align:center; border: 1px solid black;'>".($data->planMonth3 == 0 ? '-' : round(number_format($data->planMonth3, 1)))."</td>";
-                echo "<td style='text-align:center; border: 1px solid black;'>".($data->outPlanMonth4 == 0 ? '-' : number_format($data->outPlanMonth4,0,",","."))."</td>";
                 echo "</tr>";
             }
         }
