@@ -122,7 +122,8 @@
         <p class="text-capitalize font-weight-bold">- make changes to the print report <br>1.remove the outplan in the 3rd month.
                                                     <br>2.add Stock ID Unit in the report column.
                                                <br>3.change the name to the signature column (update at 15-August-2024)</p>
-                                               <p class="text-capitalize font-weight-bold">- upgrade 1.1.0 at (update at 15-August-2024)</p>    
+        <p class="text-capitalize font-weight-bold">- upgrade 1.1.0 at (update at 15-August-2024)</p> 
+        <p class="text-capitalize font-weight-bold">- Changes to data that has been obtained by FP cannot be updated again (update at 16-August-2024)</p>    
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
