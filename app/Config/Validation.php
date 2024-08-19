@@ -59,6 +59,14 @@ class Validation extends BaseConfig
                
             ]
         ],
+
+        'Branch' => [
+            'rules'         => 'required',
+            'errors'        => [
+                'required'  => 'Cabang Harus Di Pilih Salah Satu.',
+               
+            ]
+        ],
     ];
 
 
