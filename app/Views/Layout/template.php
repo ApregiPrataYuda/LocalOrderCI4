@@ -186,6 +186,41 @@ function _0x7b77(){var _0x1bad66=['Ya,\x20Logout!','Akan\x20Logout!','91vVEDoC',
     }
 });
   </script>
+
+<script>
+  // Check if the notification has already been shown
+  if (!localStorage.getItem('notificationShown')) {
+    // Show the SweetAlert pop-up
+    Swal.fire({
+      title: 'Welcome!',
+      text: 'This is your first visit to this page.',
+      icon: 'info',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Set the flag in localStorage to avoid showing it again
+        localStorage.setItem('notificationShown', 'true');
+        
+        // Show additional modal with more information
+        Swal.fire({
+          title: 'Additional Information',
+          html: `
+            <p>Here is some more details about the page...</p>
+            <ul>
+              <li>Feature 1: Explanation</li>
+              <li>Feature 2: Explanation</li>
+              <li>Feature 3: Explanation</li>
+            </ul>
+          `,
+          icon: 'info',
+          confirmButtonText: 'Got it!',
+          showCloseButton: true,
+        });
+      }
+    });
+  }
+</script>
+
 </body>
 
 </html>

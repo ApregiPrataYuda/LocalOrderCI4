@@ -261,9 +261,9 @@ class Staff extends BaseController
                 return $redirect;
             }
             $data = [
-                'title' => 'Form Local Order'
+                'title' => 'Form Create Local Order'
             ];
-                return view('Staff/Form-Local-Order/Form',$data);
+                return view('Staff/Form-Local-Order/Create',$data);
          }
 
          
