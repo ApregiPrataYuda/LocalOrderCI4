@@ -6,6 +6,8 @@ use CodeIgniter\Model;
 
 class HeaderLoModel extends Model
 {
+
+   
     protected $table            = 'trans_local_orderHD';
     protected $primaryKey       = 'idHeader';
     protected $useAutoIncrement = true;
@@ -18,4 +20,6 @@ class HeaderLoModel extends Model
     public function update_data($idHeader, $header) {
         return $this->update($idHeader, $header);
     }
+
+  
 }

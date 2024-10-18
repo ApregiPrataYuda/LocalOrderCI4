@@ -24,7 +24,7 @@ class DetailLoModel extends Model
                 FROM trans_local_orderDT as a
                 LEFT JOIN ms_part_divisi as b on a.idPartDivisi = b.partID
                 LEFT JOIN Ms_Part as c on b.partID = c.PartID
-                LEFT JOIN trans_local_orderHD AS d on a.localOrderNo = d.localOrderNo
+                LEFT JOIN trans_local_orderHD AS d on a.localOrderNo = d.localOrderNo and d.divisiId = b.divisiId
                 WHERE d.localOrderNo = ? AND d.divisiId = ?";
         
         // Menjalankan query dengan parameter binding

@@ -40,32 +40,78 @@
           <div class="card-body">
           <form method="post" action="<?php echo base_url('') ?>">
             <div class="card">
+             
               <div class="card-header">
+              <span>Menu Local Order</span>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                
+
+
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Create Local Order</h5>
-                      <br>
-                      <p class="card-text">Place a local order by clicking the button below.</p>
-                      <a href="<?= base_url('Form-Local-Order')?>" class="btn btn-outline-info">Go Next </a>
-                    </div>
-                  </div>
+              <div class="col-lg-3 col-sm-12">
+                <div class="small-box bg-info">
+                <div class="inner">
+                <h3>CREATE LO</h3>
+                <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> For your create new Local Order</p>
+                </div>
+                <div class="icon">
+                <i class="fas fa fa-newspaper"></i>
+                </div>
+                <a href="<?= base_url('Form-Local-Order')?>" class="small-box-footer">GO CREATE NEW LOCAL ORDER <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                </div>
+                
+
+               
+                <div class="col-lg-3 col-sm-12">
+                <div class="small-box bg-info">
+                <div class="inner">
+                <h3>Check Part Divisi</h3>
+                <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Check your part division</p>
+                </div>
+                <div class="icon">
+                <i class="fas fa fa-check-square"></i>
+                </div>
+                <a href="<?= base_url('Parts-Division')?>" class="small-box-footer">GO CHECK YOUR PART DIVISION <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
                 </div>
 
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Check Your Part Divisi</h5>
-                      <p class="card-text">If you want to check the division master part, click the button below.</p>
-                      <a href="<?= base_url('Parts-Division')?>" class="btn btn-outline-info">Go Check</a>
-                    </div>
-                  </div>
+
+              
+
+                <div class="col-lg-3 col-sm-12">
+                <div class="small-box bg-info">
+                <div class="inner">
+                <h3>UPDATE LO</h3>
+                <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> For your update Item Local Order</p>
                 </div>
+                <div class="icon">
+                <i class="fas fa fa-edit"></i>
+                </div>
+                <a href="<?= base_url('Update-Local-Order')?>" class="small-box-footer">GO UPDATE ITEM LOCAL ORDER <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                </div>
+                
+
+
+
+
+                <div class="col-lg-3 col-sm-12">
+                <div class="small-box bg-info">
+                <div class="inner">
+                <h3>ADD NEW ITEM LO</h3>
+                <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> To add new items if you forget </p>
+                </div>
+                <div class="icon">
+                <i class="fas fa fa-plus-circle"></i>
+                </div>
+                <a href="<?= base_url('add-item-again')?>" class="small-box-footer">GO ADD  NEW ITEM LOCAL ORDER <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                </div>
+
+
+                
               </div>
               </div>
               <!-- /.card-body -->

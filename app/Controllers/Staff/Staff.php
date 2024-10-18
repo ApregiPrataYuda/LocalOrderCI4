@@ -478,7 +478,6 @@ class Staff extends BaseController
                     'outPlanMonth4' => $this->request->getPost('outPlanMonth4')[$key],
                     'orderMonthPO' => $this->request->getPost('hasilKonversi')[$key]
                 ];
-
                 // array for DETAIL save data PRDT
                  $this->DetailLoModel->insert($detail);
                  $this->DetailLoModelLog->insert($detail);
@@ -608,6 +607,7 @@ class Staff extends BaseController
         'title' => 'FORM LOCAL ORDER UPDATE'
     ];
         return view('Staff/Form-Local-Order/FormUpdate',$data);
+       
     }
 
 
@@ -650,7 +650,6 @@ class Staff extends BaseController
         $result = $queryResult->getResultArray();
         echo json_encode($result);
     }
-
 
 
 
@@ -790,6 +789,181 @@ class Staff extends BaseController
         ];
             return view('Staff/Report-stock-last/Data',$data);
     }
+
+
+//code untuk penambhan item baru ke no local order tertentu
+    public function add_item_new()  {
+        $data = [
+            'title' => 'Form Add Item Local Order'
+        ];
+        return view('Staff/Form-Local-Order/Form-Add-New-Item',$data);
+    }
+
+
+
+    public function get_master_parts_again()  {
+        $nolocalorder = $this->request->getVar('nolocalorder');
+        $nameDivisi = $this->request->getVar('nameDivisi');
+        $data = $this->PartDivisiModel->getPartDivisi($nameDivisi);
+        // Kirim hasil ke view dalam format JSON
+        return $this->response->setJSON($data);
+    }
+
+
+
+   public  function Accept_data_local_order_again()  {
+    //untuk ambil data default
+    $noLocalOrder = $this->request->getVar('noLocalOrder');
+    $getnoLocalOrder = $noLocalOrder;
+    $parts = explode('/', $getnoLocalOrder);
+    $monthYear = $parts[3] . '/' . $parts[4];
+
+
+    $month = date("m");
+    $year = date('Y');
+    $divisi = $this->request->getVar('divisis');
+    $groupBranch = session()->get('groupBranch');
+    $userId = session()->get('UserID');
+
+    //untuk menghitung bulan
+    $now = new \DateTime(); 
+    // untuk bulan +1 dari bulan sekarang
+   $previousMonth = $now->modify('first day of +1 month');
+   $Month = $previousMonth->format('m');
+   $Year = $previousMonth->format('Y');
+   $combined =  $Month.$Year;
+     
+    // untuk bulan -1 dari bulan sekarang
+    $nowone = new \DateTime();
+    $previousMonths = clone $nowone; // Clone objek $now agar tidak memodifikasi $now
+    $previousMonths->modify('first day of -1 month'); // Mengubah ke bulan sebelumnya
+    $Months = $previousMonths->format('m'); // Format bulan (angka)
+    $Years = $previousMonths->format('Y'); // Format tahun (4 digit)
+    $combineds = $Months . $Years; // Menggabungkan bulan dan tahun
+
+    // untuk data bulan sekarang
+   $bulanNow = date("m");
+   $yearNow = date('Y');
+   $datesNow = date('Y-m-d');
+   $CombinedNow = $bulanNow.$yearNow;
+
+ 
+    // untuk bulan +2 dari bulan sekarang
+   $nows = new \DateTime();
+   $nextTwoMonths = clone $nows; // Clone objek $now agar tidak memodifikasi $now
+   $nextTwoMonths->modify('first day of +2 month'); // Mengubah ke dua bulan ke depan
+   $Month2 = $nextTwoMonths->format('m'); // Format bulan (angka)
+   $Year2 = $nextTwoMonths->format('Y'); // Format tahun (4 digit)
+   $combined2 = $Month2 . $Year2; 
+
+   $dateNowNeeded = new \DateTime();
+   $dateNeeded = $dateNowNeeded->modify('last day of this month');
+   $dateNeeded = $dateNeeded->format('Y-m-d');
+   
+
+
+   // menerapkan metode transction ci4
+   $db = Database::connect();
+   // Mulai transaksi
+   $db->transBegin();
+
+try {
+
+$logPR = [
+   'UserID' => $userId,
+   'NoBukti' => $noLocalOrder,
+   'NoBuktiReff' => $noLocalOrder,
+   'TGL' => $datesNow,
+   'Modul' => 'MnuPurcPurchaseRequest',
+   'Keterangan' => '',
+   'CustomerOrSupplierID' => '', 
+   'JenisLog' => 'SAVE',
+   'version' => '',
+   'KompName' => '',
+   'UserName' => $userId,
+   'CreateBy' => $userId,
+   'CreateDate' => $datesNow,
+   'CompanyCode' => 'RI',
+   'LogDetail' => ''
+];
+$this->PRActivityLogModel->insert($logPR);
+
+
+
+//array for detail data Lo
+$partIDs = $this->request->getPost('partID'); // Mengambil array partID dari input POST
+foreach ($partIDs as $key => $x) {
+   $detail = [
+       'localOrderNo' => $noLocalOrder,
+       'idPartDivisi' => $x,
+       'keterangan' => $this->request->getPost('keterangan')[$key],
+       'month1' => $combineds,
+       'endStockMonth1' => $this->request->getPost('endStockMonth1')[$key],
+       'month2' => $CombinedNow,
+       'inActualMonth2' => $this->request->getPost('inActualMonth2')[$key],
+       'hpoMonth2' => $this->request->getPost('hpoMonth2')[$key],
+       'outPlanMonth2' => $this->request->getPost('outPlanMonth2')[$key],
+       'orderMonth2' => $this->request->getPost('orderMonth2')[$key],
+       'balancePlanMonth2' => $this->request->getPost('balancePlanMonth2')[$key],
+       'planMonth2' => $this->request->getPost('planMonth2')[$key],
+       'month3' => $combined,
+       'outPlanMonth3' => $this->request->getPost('outPlanMonth3')[$key],
+       'balancePlanMonth3' => $this->request->getPost('balancePlanMonth3')[$key],
+       'planMonth3' => $this->request->getPost('planMonth3')[$key],
+       'month4' => $combined2,
+       'outPlanMonth4' => $this->request->getPost('outPlanMonth4')[$key],
+       'orderMonthPO' => $this->request->getPost('hasilKonversi')[$key]
+   ];
+   // array for DETAIL save data PRDT
+    $this->DetailLoModel->insert($detail);
+    $this->DetailLoModelLog->insert($detail);
+
+
+    $detailPR = [
+       'NoPR' => $noLocalOrder,
+       'PartID' => $x,
+       'WithDetail' => 0,
+       'NoRevisi' => '',
+       'ExplodedID' => '',
+       'MappingNo' => '',
+       'ProjectID' => '',
+       'FormulaID' => '',
+       'SupplierID' => '',
+       'SubSupplierID' => '',
+       'DateNeeded' => $dateNeeded,
+       'QtyRequest_Stock' => $this->request->getPost('orderMonth2')[$key],
+       'UnitID_Stock' => $this->request->getPost('UnitID_Stock')[$key],
+       'QtyRequest_PO' => $this->request->getPost('hasilKonversi')[$key],
+       'UnitID_PO' => $this->request->getPost('UnitID_PO')[$key],
+       'QtyApprove' => 0,
+       'Notes' => $this->request->getPost('keterangan')[$key],
+       'DetailPart' => '',
+       'StatusPA' => 'OPEN',
+       'LastBuyDate' => $datesNow,
+       'AlasanReject' => '',
+       'PIC' => '',
+       'PIC_Date' => '',
+       'PIC_By' => '',
+       'ApproveDate' => '',
+       'ApplicantDT' => $userId,
+       'CompanyCode' => 'RI'
+   ];
+   $this->PRDetailModel->insert($detailPR);
+}
+// Commit transaksi
+$db->transCommit();
+} catch (\Exception $e) {
+   // Rollback transaksi jika terjadi kesalahan
+   $db->transRollback();
+   // Log error atau lakukan penanganan kesalahan sesuai kebutuhan
+   log_message('error', 'Error during transaction: ' . $e->getMessage());
+   throw $e; // Rethrow exception if necessary
+}
+
+
+
+    }
+
 
 
 }

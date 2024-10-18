@@ -1,38 +1,80 @@
 <?= $this->extend('layout/template') ?>
 <?= $this->section('content') ?>
-<style type="text/css">
-.select2-container--default .select2-selection--single .select2-selection__rendered,
-.select2-container .select2-selection--single {
-	height: 38px !important;
+<style>
+   
+    /* Style umum untuk tabel */
+    /* .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1em;
+    }
+    .table th, .table td {
+        padding: 0.5em;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+    .table th {
+        background-color: #f4f4f4;
+    } */
+
+    /* Responsive Table Wrapper */
+    /* .responsive-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+     /*} */
+
+    /* Hide some columns on smaller screens */
+    /* @media screen and (max-width: 768px) {
+        .table th, .table td {
+            font-size: 0.8em;
+        }
+        .table th:nth-child(n+6),
+        .table td:nth-child(n+6) {
+            display: none;
+        }
+    } */
+
+    input:invalid, textarea:invalid {
+    border: 2px solid red;
 }
 
-p{
-        margin: 5px 0 0 0;
-    }
-        p.footer{
-        text-align: right;
-        font-size: 11px;
-        border-top: 1px solid #D0D0D0;
-        line-height: 32px;
-        padding: 0 10px 0 10px;
-        margin: 20px 0 0 0;
-        display: block;
-    }
-    .bold{
-        font-weight: bold;
-    }
-
-    #footer {
-    clear: both;
-    position: relative;
-    height: 40px;
-    margin-top: -40px;
-    }
-
-    input:valid, textarea:valid {
+input:valid, textarea:valid {
     border: 2px solid green;
 }
 
+
+.tableFixHead {
+    overflow: auto;
+    height: 600px; /* Atur tinggi sesuai kebutuhan */
+    border-collapse: collapse;
+}
+
+.tableFixHead thead th {
+    position: -webkit-sticky; /* Untuk browser berbasis Webkit */
+    position: sticky;
+    top: 0; /* Posisi atas header */
+    background-color: #f4f4f4; /* Warna latar belakang header */
+    z-index: 10; /* Pastikan header berada di atas konten */
+}
+
+.tableFixHead th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; /* Menempel di bagian atas tabel */
+    background: #f4f4f4; /* Warna latar belakang untuk visibilitas */
+    z-index: 10; /* Pastikan header di atas konten lainnya */
+}
+
+.tableFixHead th, .tableFixHead td {
+    padding: 0.5em; /* Sesuaikan padding jika diperlukan */
+    text-align: center;
+    border: 1px solid #ddd; /* Tambahkan border jika diperlukan */
+}
+
+.tableFixHead th[colspan] {
+    background-color: #f4f4f4; /* Warna latar belakang untuk kolom header multi-colspan */
+    z-index: 10; /* Pastikan berada di atas */
+}
 </style>
 
 <section class="content-header">
@@ -50,7 +92,6 @@ p{
 </div>
 </div>
 </section>
-
 
 <!-- <form onsubmit="return false" id="formLoUpdate">     -->
 <form onsubmit="return false" id="formLoUpdate">    
@@ -133,11 +174,21 @@ p{
             <button type="button" class="btn btn-outline-info btn-sm" id="buttonSubmit"  onclick="updateData()" style="display: none;"><i class="fa fa-save"></i> Update Data</button>
             <button type="button" class="btn btn-outline-danger btn-sm removeButton" id="deletebutton" style="display: none;"><i class="fa fa-trash"></i> Remove Item</button>
         </div>
+
+        <div class="float-right ml-2">
+        <a href="<?= base_url('add-item-again')?>" class="btn btn-outline-success btn-sm">
+            <i class="fa fa-plus" aria-hidden="true"></i> Penambahan item baru <i class="fa fa-file" aria-hidden="true"></i>
+        </a>
+        </div>
+        
         <div class="float-right ml-2">
         <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#userGuideModal">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
         </button>
         </div>
+
+
+       
 
          </div>
          <hr>
@@ -157,6 +208,7 @@ p{
               <!-- <div class="card-header"> -->
               <div class="row">
 			     <div class="col-lg-12 col-md-12 col-sm-12">
+                 <div class="table-responsive tableFixHead">
              <table class="table table-bordered table-striped example2" id="tbl_po_list">
                   <thead>
                 <tr>
@@ -204,16 +256,76 @@ p{
 				  
                 </tr>
                   <tr>
-                    <th scope="col" style="text-align:center;">IN ACT</th>
-                    <th scope="col" style="text-align:center;">HPO</th>
-                    <th scope="col" style="text-align:center;">OUT Plan</th>
-                    <th scope="col" style="text-align:center;">Bal Plan</th>
-                    <th scope="col" style="text-align:center;">Month Plan</th>
-                    <th scope="col" style="text-align:center; background: yellow;">Order</th>
-                    <th scope="col" style="text-align:center; background: yellow;">Order PO</th>
-                    <th scope="col" style="text-align:center;">OUT Plan</th>
-                    <th scope="col" style="text-align:center;">Bal Plan</th>
-                    <th scope="col" style="text-align:center;">Month Plan</th>
+                    <th scope="col" style="text-align:center;">IN ACT 
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center;">HPO
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center;">OUT Plan
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center;">Bal Plan
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center;">Month Plan
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center; background: yellow;">Order 
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center; background: yellow;">Order PO 
+                    <span class="text-primary"><?php 
+                    $bulan = date("F");
+                    echo $bulan;  
+                    ?></span>
+                    </th>
+                    <th scope="col" style="text-align:center;">OUT Plan
+                    <span class="text-primary">
+                    <?php
+                    $now = new DateTime();
+                    $previousMonth = $now->modify('first day of +1 month');
+                    $zoro = $previousMonth->format('F');
+                    echo $zoro;
+                    ?>
+                    </span>
+                    </th>
+                    <th scope="col" style="text-align:center;">Bal Plan
+                    <?php
+                    $now = new DateTime();
+                    $previousMonth = $now->modify('first day of +1 month');
+                    $zoro = $previousMonth->format('F');
+                    echo $zoro;
+                    ?>
+                    </span>
+                    </th>
+                    <th scope="col" style="text-align:center;">Month Plan
+                    <?php
+                    $now = new DateTime();
+                    $previousMonth = $now->modify('first day of +1 month');
+                    $zoro = $previousMonth->format('F');
+                    echo $zoro;
+                    ?>
+                    </span>
+                    </th>
                   </tr>
                   </thead>
                   <tbody>
@@ -559,6 +671,7 @@ $(document).ready(function() {
             let summing = endStockMonth1 + inActualMonth2 + hpoMonth2;
             let resultForoutPlanMonth2 = summing - outPlanMonth2;
             $(this).find('.balancePlanMonth2').val(resultForoutPlanMonth2);
+
 
             // Calculate planMonth2
             let hasilBagi = (balancePlanMonth2x / outPlanMonth3) || 0;

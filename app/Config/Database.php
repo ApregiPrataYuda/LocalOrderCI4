@@ -99,6 +99,30 @@ class Database extends Config
         ],
     ];
 
+    //database connect to server 
+    // public array $default = [
+    //     'DSN'        => '',
+    //     'hostname'   => '10.12.0.5',
+    //     'username'   => 'sa',
+    //     'password'   => 'Novum2014',
+    //     'database'   => 'United2',
+    //     'schema'     => 'dbo',
+    //     'DBDriver'   => 'SQLSRV',
+    //     'DBPrefix'   => '',
+    //     'pConnect'   => false,
+    //     'DBDebug'    => true,
+    //     'charset'    => 'utf8',
+    //     'swapPre'    => '',
+    //     'encrypt'    => false,
+    //     'failover'   => [],
+    //     'port'       => '',
+    //     'dateFormat' => [
+    //         'date'     => 'Y-m-d',
+    //         'datetime' => 'Y-m-d H:i:s',
+    //         'time'     => 'H:i:s',
+    //     ],
+    // ];
+
     
 
     //    /**

@@ -30,14 +30,7 @@
               </a>
              </li>
 
-             <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Update-Local-Order').'" class="nav-link">
-              <i class="nav-icon  fas fa-edit"></i>
-               <p style="color: RGB(245, 245, 245);">
-                Update Local Order
-               </p>
-              </a>
-             </li>
+             
 
              <li class="nav-item Active">
               <a style="color: RGB(245, 245, 245);" href="'.site_url('Check-Stock-Last').'" class="nav-link">
@@ -79,14 +72,6 @@
               </a>
              </li>
 
-             <li class="nav-item Active">
-              <a style="color: RGB(245, 245, 245);" href="'.site_url('Update-Local-Order').'" class="nav-link">
-              <i class="nav-icon  fas fa-edit"></i>
-               <p style="color: RGB(245, 245, 245);">
-                Update Local Order
-               </p>
-              </a>
-             </li>
 
              <li class="nav-item Active">
               <a style="color: RGB(245, 245, 245);" href="'.site_url('Check-Stock-Last').'" class="nav-link">

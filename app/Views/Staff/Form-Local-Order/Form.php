@@ -5,7 +5,7 @@
 <style>
    
     /* Style umum untuk tabel */
-    .table {
+    /* .table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 1em;
@@ -17,16 +17,16 @@
     }
     .table th {
         background-color: #f4f4f4;
-    }
+    } */
 
     /* Responsive Table Wrapper */
-    .responsive-table {
+    /* .responsive-table {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
-    }
+     /*} */
 
     /* Hide some columns on smaller screens */
-    @media screen and (max-width: 768px) {
+    /* @media screen and (max-width: 768px) {
         .table th, .table td {
             font-size: 0.8em;
         }
@@ -34,7 +34,7 @@
         .table td:nth-child(n+6) {
             display: none;
         }
-    }
+    } */
 
     input:invalid, textarea:invalid {
     border: 2px solid red;
@@ -43,6 +43,42 @@
 input:valid, textarea:valid {
     border: 2px solid green;
 }
+
+
+.tableFixHead {
+    overflow: auto;
+    height: 600px; /* Atur tinggi sesuai kebutuhan */
+    border-collapse: collapse;
+}
+
+.tableFixHead thead th {
+    position: -webkit-sticky; /* Untuk browser berbasis Webkit */
+    position: sticky;
+    top: 0; /* Posisi atas header */
+    background-color: #f4f4f4; /* Warna latar belakang header */
+    z-index: 10; /* Pastikan header berada di atas konten */
+}
+
+.tableFixHead th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; /* Menempel di bagian atas tabel */
+    background: #f4f4f4; /* Warna latar belakang untuk visibilitas */
+    z-index: 10; /* Pastikan header di atas konten lainnya */
+}
+
+.tableFixHead th, .tableFixHead td {
+    padding: 0.5em; /* Sesuaikan padding jika diperlukan */
+    text-align: center;
+    border: 1px solid #ddd; /* Tambahkan border jika diperlukan */
+}
+
+.tableFixHead th[colspan] {
+    background-color: #f4f4f4; /* Warna latar belakang untuk kolom header multi-colspan */
+    z-index: 10; /* Pastikan berada di atas */
+}
+
+
 
 </style>
 
@@ -169,64 +205,116 @@ input:valid, textarea:valid {
 
              <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="responsive-table">
+        <!-- <div class="responsive-table"> -->
+        <div class="table-responsive tableFixHead">
             <table class="table table-bordered table-striped example2 display" id="tbl_po_list">
-                <thead>
-                    <tr>
-                        <th rowspan="2" scope="col" style="text-align:center; width:2%;">No</th>
-                        <th rowspan="2" scope="col" style="text-align:center;"></th>
-                        <th rowspan="2" scope="col" style="text-align:center;">Part ID</th>
-                        <th rowspan="2" scope="col" style="text-align:center;">Part Name</th>
-                        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Safety Stock</th>
-                        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Standard Pack</th>
-                        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Minimum Order</th>
-                        <th rowspan="2" scope="col" style="text-align:center;" width="10%" class="note-column">Note</th>
-                        <th rowspan="2" scope="col" style="text-align:center; color:blue;" width="3%">
-                            Stock <?php
-                            $now = new DateTime();
-                            $previousMonth = $now->modify('first day of -1 month');
-                            $zoro = $previousMonth->format('F');
-                            echo $zoro;
-                            ?>
-                        </th>
-                        <th colspan="7" scope="col" style="text-align:center; color:blue;">
-                            <?php 
-                            $bulan = date("F");
-                            echo $bulan;  
-                            ?>
-                        </th>
-                        <th colspan="3" style="text-align:center; color:blue;">
-                            <?php
-                            $now = new DateTime();
-                            $previousMonth = $now->modify('first day of +1 month');
-                            $zoro = $previousMonth->format('F');
-                            echo $zoro;
-                            ?>
-                        </th>
-                        <th rowspan="2" scope="col" style="text-align:center; color:blue;">
-                            Plan OUT 
-                            <?php
-                            $now = new DateTime();
-                            $previousMonth = $now->modify('first day of +2 month');
-                            $zoro = $previousMonth->format('F');
-                            echo $zoro;
-                            ?>
-                        </th>
-                        <!-- <th rowspan="2" scope="col" style="text-align:center;"></th> -->
-                    </tr>
-                    <tr>
-                        <th scope="col" style="text-align:center; width:3%;">IN ACT</th>
-                        <th scope="col" style="text-align:center;">HPO</th>
-                        <th scope="col" style="text-align:center;">OUT Plan</th>
-                        <th scope="col" style="text-align:center;">Bal Plan</th>
-                        <th scope="col" style="text-align:center;">Month Plan</th>
-                        <th scope="col" style="text-align:center; background: yellow;">Order</th>
-                        <th scope="col" style="text-align:center; background: yellow;">Order PO</th>
-                        <th scope="col" style="text-align:center;">OUT Plan</th>
-                        <th scope="col" style="text-align:center;">Bal Plan</th>
-                        <th scope="col" style="text-align:center;">Month Plan</th>
-                    </tr>
-                </thead>
+            <thead>
+        <tr>
+        <th rowspan="2" scope="col" style="text-align:center; width:2%;">No</th>
+        <th rowspan="2" scope="col" style="text-align:center;"></th>
+        <th rowspan="2" scope="col" style="text-align:center;">Part ID</th>
+        <th rowspan="2" scope="col" style="text-align:center;">Part Name</th>
+        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Safety Stock</th>
+        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Standard Pack</th>
+        <th rowspan="2" scope="col" style="text-align:center;" width="3%">Minimum Order</th>
+        <th rowspan="2" scope="col" style="text-align:center;" width="10%" class="note-column">Note</th>
+        <th rowspan="2" scope="col" style="text-align:center; color:blue;" width="3%">
+            Stock <?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of -1 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?>
+        </th>
+        <th colspan="7" scope="col" style="text-align:center; color:blue;">
+            <?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?>
+        </th>
+        <th colspan="3" style="text-align:center; color:blue;">
+            <?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of +1 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?>
+        </th>
+        <th rowspan="2" scope="col" style="text-align:center; color:blue;">
+            Plan OUT 
+            <?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of +2 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?>
+        </th>
+    </tr>
+    <tr>
+        <th scope="col" style="text-align:center; width:3%;">IN ACT 
+           <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span>
+            </th>
+        <th scope="col" style="text-align:center;">HPO 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center;">OUT Plan 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center;">Bal Plan 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center;">Month Plan 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center; background: yellow;">Order 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center; background: yellow;">Order PO 
+        <span class="text-primary"><?php 
+            $bulan = date("F");
+            echo $bulan;  
+            ?></span></th>
+        <th scope="col" style="text-align:center;">OUT Plan 
+        <span class="text-primary"><?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of +1 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?> </span></th>
+        <th scope="col" style="text-align:center;">Bal Plan
+        <span class="text-primary">
+        <?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of +1 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?>
+        </span></th>
+        <th scope="col" style="text-align:center;">Month Plan
+            <span class="text-primary">
+            <?php
+            $now = new DateTime();
+            $previousMonth = $now->modify('first day of +1 month');
+            $zoro = $previousMonth->format('F');
+            echo $zoro;
+            ?>
+            </span>
+        </th>
+    </tr>
+</thead>
                 <tbody>
                     <!-- Data rows will be inserted here -->
                 </tbody>
@@ -674,11 +762,27 @@ function calculateValues() {
         $row.find('.balancePlanMonth2').val(resultForoutPlanMonth2);
 
         // Calculate planMonth2
-        const balancePlanMonth2 = Math.abs(parseFloat($row.find('.balancePlanMonth2').val()) || 0);
-        const hasilBagi = (balancePlanMonth2 / (outPlanMonth3 || 1)); // Avoid division by zero
-        const planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
-        $row.find('.planMonth2').val(planMonth2Value);
+        // const balancePlanMonth2 = parseFloat($row.find('.balancePlanMonth2').val()) || 0;
+        // const hasilBagi = (balancePlanMonth2 / (outPlanMonth3 || 1)); // Avoid division by zero
+        // const planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
+        // $row.find('.planMonth2').val(planMonth2Value);
 
+
+        // const balancePlanMonth2 = parseFloat($row.find('.balancePlanMonth2').val());
+        // const hasilBagi = balancePlanMonth2 / outPlanMonth3; // Avoid division by zero
+        // const planMonth2Value = Math.ceil(isNaN(hasilBagi) ? 0 : hasilBagi);
+        // $row.find('.planMonth2').val(planMonth2Value);
+
+        //start new code untuk hasil -
+        const balancePlanMonth2 = parseFloat($row.find('.balancePlanMonth2').val());
+        const outPlanMonths3 = parseFloat($row.find('.outPlanMonth3').val());
+        // Pastikan outPlanMonth3 bukan nol sebelum melakukan pembagian
+        const hasilBagi = outPlanMonth3 !== 0 ? balancePlanMonth2 / outPlanMonths3 : 0;
+        // Tangani hasil Infinity atau NaN
+        const planMonth2Value = isFinite(hasilBagi) ? Math.ceil(hasilBagi) : 0;
+         $row.find('.planMonth2').val(planMonth2Value);
+       //end new code untuk hasil -
+        
         // Calculate orderMonth2
         // let hasilOrder = endStockMonth1 + inActualMonth2 + hpoMonth2 - outPlanMonth2 - safety_Stock - outPlanMonth3;
         // let mod = 0;
@@ -701,6 +805,8 @@ function calculateValues() {
         let mod2 = 0;
         let mod3 = 0;
         mod = order % standartPack;
+        console.log(mod);
+        
         if (mod > 0) { 
         mod2 = standartPack - mod;
         mod3 = order + mod2;
@@ -922,7 +1028,7 @@ $('#saveButton').click(function() {
                         $('#saveButton').prop('disabled', false).text('Sedang proses...');
                     },
                     success: function(response) {
-                if (response.trim() === 'oke') {
+                if (response.trim() === 'oke') { 
                     Swal.fire({
                         icon: "error",
                         title: "Error!",
@@ -931,6 +1037,7 @@ $('#saveButton').click(function() {
                         $('#saveButton').prop('disabled', true).text('Data Save Failed');
                         window.location.href = '<?= base_url('Form-Local-Order') ?>';
                     });
+                   
                 } else {
                     Swal.fire({
                         icon: "success",
@@ -940,6 +1047,7 @@ $('#saveButton').click(function() {
                         $('#saveButton').prop('disabled', false).text('Success Save Data');
                         window.location.href = '<?= base_url('Form-Local-Order') ?>';
                     });
+                    
                 }
             },
         error: function(xhr, status, error) {
@@ -1044,7 +1152,7 @@ $('#saveButton').click(function() {
 
     // Tentukan tanggal di mana form bisa ditampilkan, misalnya tanggal 5 hingga 10 setiap bulan
     const startDay = 5;
-    const endDay = 15;
+    const endDay = 30;
 
     if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
         document.getElementById('accessDanied').style.display = 'block';

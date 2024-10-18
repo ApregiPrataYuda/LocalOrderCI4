@@ -44,6 +44,10 @@ $routes->post('/send-data-update', 'Staff\Staff::save_lo_data_update');
 $routes->get('/check-getFP', 'Staff\Staff::check_nopr_in_tbl_transPa');
 
 
+$routes->get('/add-item-again', 'Staff\Staff::add_item_new');
+$routes->post('/get-data-items', 'Staff\Staff::get_master_parts_again');
+$routes->post('send-data-request-order-again', 'Staff\Staff::Accept_data_local_order_again');
+
 
 $routes->get('/Check-Stock-Last', 'Staff\Staff::Check_stock');
 $routes->get('/Notfound', 'Notfound\ErrorNotfound::index');
