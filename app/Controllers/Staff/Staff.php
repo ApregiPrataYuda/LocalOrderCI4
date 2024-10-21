@@ -336,6 +336,37 @@ class Staff extends BaseController
          }
 
 
+        public  function check_Local_Order_numore() {
+            $month = date("m");
+            $year = date('Y');
+            $divisi = $this->request->getVar('division');
+            $monthAndYear = $this->request->getVar('monthandyear');
+            $groupBranch = session()->get('groupBranch');
+            // Query SQL
+            $sql = "SELECT RIGHT(localOrderNo, 5) AS localOrderNo
+                    FROM trans_local_orderHD
+                    WHERE divisiId = ?
+                    AND periode = ?
+                    ORDER BY localOrderNo DESC
+                    ";
+            $query = $this->HeaderLoModel->query($sql, [$divisi, $monthAndYear]);
+            if ($query->getNumRows() <> 0) {
+                // Jika data ditemukan, ambil nilai terakhir
+                $data = $query->getRow();
+                $kode = intval($data->localOrderNo) + 1;
+            } else {
+                // Jika tidak ada data ditemukan, mulai dari 1
+                $kode = 1;
+            }
+            $result = sprintf("%04d", $kode);
+            $resultscode = $groupBranch."/LO/".$divisi."/".$month."/".$year."/".$result;
+           // Cek apakah order lokal sudah ada
+            $exists = $this->DetailLoModel->where('localOrderNo', $resultscode)
+                                        ->countAllResults() > 0;
+            return $this->response->setJSON(['exists' => $exists]);
+         }
+
+
          public function Accept_data_local_order()  {
              
             //START CODE FOR CREATE NO LO
@@ -789,6 +820,10 @@ class Staff extends BaseController
         ];
             return view('Staff/Report-stock-last/Data',$data);
     }
+
+
+
+
 
 
 //code untuk penambhan item baru ke no local order tertentu

@@ -70,7 +70,7 @@ input:valid, textarea:valid {
 </div>
 </section>
 
-<form onsubmit="return false" id="formLoAgain">   
+<form onsubmit="return false" id="formLocalOrders">   
 <!--start view for user -->
   <section class="content col-md-12">
         <!-- Default box -->
@@ -161,8 +161,8 @@ input:valid, textarea:valid {
             <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#userGuideModal">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informasi Cara Penggunaan <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             </button>
-            <a href="" id="reset"  class="btn btn-outline-warning btn-sm clicks2"><i class="fa fa-undo"></i> Reset</a>
-            <button type="button" id="saveButton" class="btn btn-sm btn-outline-info"><i class="fa fa-save"></i> Save Data</button>
+            <a href="" id="reset"  class="btn btn-outline-warning btn-sm clicks2" style="display: none;"><i class="fa fa-undo"></i> Reset</a>
+            <button type="button" id="saveButton" class="btn btn-sm btn-outline-info" style="display: none;"><i class="fa fa-save"></i> Save Data</button>
             <!-- end code Button -->
             <hr>
             <!-- start code check -->
@@ -392,7 +392,6 @@ input:valid, textarea:valid {
         5. **Tombol Save Data**<br>   
         - Tombol ini digunakan untuk menyimpan semua data Local Order yang sudah dikalkulasi.<br><br>  
 
-
         7. **Jika dirasa semua data sudah sesuai, silakan simpan data.**<br><br> 
 
         8. **Data yang berhasil disimpan dapat Anda lihat di menu Report dan mencetaknya dari sana.** <br><br> </p>
@@ -529,6 +528,7 @@ input:valid, textarea:valid {
                 delete selectedItems[partID]; // Hapus dari objek
                 removeFromSelectedItemsTable(partID);
             }
+            updateButtonVisibility(); // Update tombol visibility
         });
     }
 
@@ -575,6 +575,17 @@ input:valid, textarea:valid {
         $('#selectedItemsTable tbody tr').each(function(index) {
             $(this).find('td:first').text(index + 1);
         });
+    }
+
+    function updateButtonVisibility() {
+        // Tampilkan tombol jika ada item yang dipilih
+        if (Object.keys(selectedItems).length > 0) {
+            $('#reset').show();
+            $('#saveButton').show();
+        } else {
+            $('#reset').hide();
+            $('#saveButton').hide();
+        }
     }
     // Set listener untuk checkbox ketika dokumen dimuat
     setCheckboxChangeListener();
@@ -724,8 +735,8 @@ $(document).ready(function() {
 </script>
 
 
-<!-- code save data -->
-<script>
+<!-- code save data old-->
+<!-- <script>
 $('#saveButton').click(function() {
     let isValid = true;
     let errorMessage = '';
@@ -760,7 +771,7 @@ $('#saveButton').click(function() {
             $.ajax({
                     url: '<?= base_url('send-data-request-order') ?>',
                     method: 'POST',
-                    data: $('#formLoAgain').serialize(),
+                    data: $('#formLocalOrders').serialize(),
                     success: function(response) {
                 if (response.trim() === 'oke') {
                     Swal.fire({
@@ -807,7 +818,123 @@ $('#saveButton').click(function() {
         });
     }
 });
-</script>
+</script> -->
+
+
+<!-- code save lo new -->
+ <script>
+    $('#saveButton').click(function() {
+    let isValid = true;
+    let errorMessage = '';
+    let missingFields = [];
+
+    $('#selectedItemsTable tbody tr').each(function() {
+        let row = $(this);
+        let itemData = {
+            outPlanMonth2: row.find('input[name="outPlanMonth2[]"]').val(),
+            outPlanMonth3: row.find('input[name="outPlanMonth3[]"]').val(),
+            outPlanMonth4: row.find('input[name="outPlanMonth4[]"]').val()
+        };
+
+        // Reset array missingFields untuk setiap baris
+        missingFields = [];
+        // Cek untuk kolom yang kosong
+        if (!itemData.outPlanMonth2) missingFields.push('out Plan Month 2');
+        if (!itemData.outPlanMonth3) missingFields.push('out Plan Month 3');
+        if (!itemData.outPlanMonth4) missingFields.push('out Plan Month 4');
+        // Jika ada kolom yang kosong, perbarui isValid dan errorMessage
+        if (missingFields.length > 0) {
+            isValid = false;
+            errorMessage = 'Kolom ' + missingFields.join(', ') + ' belum diisi.';
+            return false; // Keluar dari loop
+        }
+    });
+
+    if (isValid) {
+        // Cek apakah order lokal untuk bulan ini sudah ada
+        let localOrderDataFk = '*/**/*/**/****/****';
+        let division = $('#divisis').val();
+        $.ajax({
+            url: '<?= base_url('check-local-order-number') ?>', // URL untuk cek order lokal yang ada
+            method: 'POST',
+            data: {
+                'localOrderDataFk' : localOrderDataFk,
+                'division' : division
+            },
+            success: function(response) {
+                if (response.exists) { // Asumsikan response memiliki field 'exists'
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Data Local order Bulan ini sudah dibuat. pembuatan Local Order hanya 1 kali setiap bulanya",
+                                }).then(function() {
+                                    $('#saveButton').prop('disabled', false).text('Data Berhasil Disimpan');
+                                    window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                                });
+                } else {
+                    // Lanjutkan dengan pengiriman formulir jika tidak ada order lokal yang ada
+                    $.ajax({
+                        url: '<?= base_url('send-data-request-order') ?>',
+                        method: 'POST',
+                        data: $('#formLocalOrders').serialize(),
+                        success: function(response) {
+                            if (response.trim() === 'oke') {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: "Gagal menyimpan data!",
+                                }).then(function() {
+                                    $('#saveButton').prop('disabled', true).text('Data Gagal Disimpan');
+                                    window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                                });
+
+                            } else {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Sukses!",
+                                    text: "Data berhasil disimpan!",
+                                }).then(function() {
+                                    $('#saveButton').prop('disabled', false).text('Data Berhasil Disimpan');
+                                    window.location.href = '<?= base_url('Form-Local-Order') ?>';
+                                });
+
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Kesalahan AJAX:', status, error);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: "Tidak ada data yang dikirim.",
+                            }).then(function() {
+                                $('#buttonSubmit').prop('disabled', false).text('OKE');
+                            });
+                        }
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Kesalahan AJAX:', status, error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Gagal memeriksa order yang ada.",
+                });
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Error Validasi",
+            text: errorMessage,
+        });
+    }
+});
+
+ </script>
+
+
 <script src="<?= base_url() ?>assets/backend/vendors/sweetalert2/sweetalert2.min.js"></script>
 <script>
     const today = new Date();
